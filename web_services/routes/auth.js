@@ -21,7 +21,7 @@ router.post("/register",async (req,res)=>{
 
 	}catch(err){
 		
-		res.status(500).json({success:0,message:err});
+		res.status(500).json({status:0,message:err.message})
 	}
 
 });
@@ -57,7 +57,7 @@ router.post("/login",async (req,res)=>{
 		
 
 	}catch(err){
-		res.status(500).json({success:0,message:err});
+		res.status(500).json({status:0,message:err.message})
 	}
 
 });

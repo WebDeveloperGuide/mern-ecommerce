@@ -16,7 +16,7 @@ router.get("/",verifyTokenAndAdmin,async (req,res)=>{
 		}
 		
 	}catch(err){
-		res.status(500).json(err)
+		res.status(500).json({status:0,message:err.message})
 	}
 })
 
@@ -34,7 +34,7 @@ router.get("/find/:id",verifyTokenAndAdmin,async (req,res)=>{
 		}
 		
 	}catch(err){
-		res.status(500).json(err)
+		res.status(500).json({status:0,message:err.message})
 	}
 })
 
@@ -56,7 +56,7 @@ router.put("/:id",verifyTokenAndAuthorization,async (req,res)=>{
 		}
 		
 	}catch(err){
-		res.status(500).json(err)
+		res.status(500).json({status:0,message:err.message})
 	}
 })
 
@@ -73,7 +73,7 @@ router.delete("/:id",verifyTokenAndAuthorization,async (req,res)=>{
 		}
 		
 	}catch(err){
-		res.status(500).json(err)
+		res.status(500).json({status:0,message:err.message})
 	}
 })
 
