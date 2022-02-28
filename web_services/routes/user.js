@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require("../models/User");
 const {verifyTokenAndAuthorization,verifyTokenAndAdmin} = require("./verifyToken");
+const CryptoJS = require("crypto-js");
 
 //Get All Users
 router.get("/",verifyTokenAndAdmin,async (req,res)=>{

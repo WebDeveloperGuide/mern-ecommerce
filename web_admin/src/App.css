@@ -1,0 +1,36 @@
+.not-found-text{
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
+
+.auth .brand-logo img{
+	width: auto;
+	height: 115px;
+}
+
+.auth .brand-logo{
+	margin-bottom: 0;
+	text-align:center;
+}
+
+.navbar .navbar-brand-wrapper .navbar-brand img{
+	height:100px;
+}
+
+.badge{
+	background-color: transparent;
+}
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 1px 1px;
+}
+
+.table tr:last-child td{
+	border-bottom: 1px solid #dee2e6; 
+}
+
+.inline-errormsg{
+  color:#dc3545;
+  font-size: 14px;
+  padding-top:2px;
+}

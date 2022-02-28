@@ -7,15 +7,14 @@ const jwt = require("jsonwebtoken");
 
 //Register
 router.post("/register",async (req,res)=>{
-	const {username,email,password} = req.body;
+	const {name,email,password} = req.body;
 	const newUser = new User({
-		username,
+		name,
 		email,
 		password: CryptoJS.AES.encrypt(password, process.env.PASS_SECRET).toString()
 	});
 
 	try{
-
 		const savedUser = await newUser.save();
 		res.status(200).json({success:1,message:"User registered successfully",data:[savedUser]});
 
@@ -28,18 +27,19 @@ router.post("/register",async (req,res)=>{
 
 //Login
 router.post("/login",async (req,res)=>{
-	const {username,password} = req.body;
+	const {email,password} = req.body;
 	
 	try{
-		const user = await User.findOne({username});
+		const user = await User.findOne({email});
 		if(!user){
-			res.status(200).json({success:1,message:"Invalid Username or Password"});
+			res.status(200).json({success:0,message:"Invalid Email or Password"});
 		}else{
 			const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_SECRET);
 			const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-			
+			console.log("password",req.body.password)
+			console.log("originalPassword",originalPassword)
 			if(req.body.password!=originalPassword){
-				res.status(200).json({success:1,message:"Invalid Username or Password"});
+				res.status(200).json({success:0,message:"Invalid Email or Password"});
 			}else{
 				const accessToken = jwt.sign(
 					{
