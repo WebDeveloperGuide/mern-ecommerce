@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Loading from "../LoadingError/Loading";
-import Toast from "../LoadingError/Toast";
 import { Login } from "../../redux/actions/userActions";
 import Message from "./../LoadingError/Error";
 
@@ -48,10 +47,7 @@ const LoginPage = ({history}) =>{
     }, [userInfo, history]);
 
 	return(
-        <>
-          <Toast />
-          {error && <Message variant="alert-danger">{error}</Message>}
-          {loading && <Loading />}
+        <>          
       		<div className="container-scroller">
             <div className="container-fluid page-body-wrapper full-page-wrapper">
               <div className="content-wrapper d-flex align-items-center auth px-0">

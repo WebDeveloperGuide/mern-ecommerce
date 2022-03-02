@@ -10,12 +10,14 @@ import Users from "./components/pages/user/Users";
 import NotFound from "./components/pages/NotFound";
 import AuthRoute from "./AuthRoute";
 import PrivateRouter from "./PrivateRouter";
+import Toast from "./components/LoadingError/Toast";
 import './App.css';
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
+      <Toast/>
       <Router>
         <Switch>
           <PrivateRouter path="/" component={Dashboard} exact />

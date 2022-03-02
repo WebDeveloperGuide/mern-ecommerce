@@ -1,6 +1,17 @@
-import {Link} from 'react-router-dom';
+import {Link,useHistory} from 'react-router-dom';
+import { logout } from "../redux/actions/userActions";
+import { useDispatch } from "react-redux";
+
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    history.push("/login");
+  };
+  
 	return(
 		<nav className="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
           <div className="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -164,7 +175,7 @@ const Header = () => {
                   <a className="dropdown-item"><i className="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2" /> Messages</a>
                   <a className="dropdown-item"><i className="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2" /> Activity</a>
                   <a className="dropdown-item"><i className="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2" /> FAQ</a>
-                  <a className="dropdown-item"><i className="dropdown-item-icon mdi mdi-power text-primary me-2" />Sign Out</a>
+                  <Link className="dropdown-item" to="#" onClick={logoutHandler}><i className="dropdown-item-icon mdi mdi-power text-primary me-2"/>Log Out</Link>
                 </div>
               </li>
             </ul>

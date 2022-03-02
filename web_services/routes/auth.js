@@ -36,8 +36,7 @@ router.post("/login",async (req,res)=>{
 		}else{
 			const hashedPassword = CryptoJS.AES.decrypt(user.password, process.env.PASS_SECRET);
 			const originalPassword = hashedPassword.toString(CryptoJS.enc.Utf8);
-			console.log("password",req.body.password)
-			console.log("originalPassword",originalPassword)
+			
 			if(req.body.password!=originalPassword){
 				res.status(200).json({success:0,message:"Invalid Email or Password"});
 			}else{

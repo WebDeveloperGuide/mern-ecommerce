@@ -7,14 +7,14 @@ function PrivateRouter({ component: Component, ...rest }) {
   const { userInfo } = userLogin;
   let isAdmin = 0;
   if (userInfo){
-    isAdmin = userInfo.data[0].isAdmin;
+    isAdmin = (userInfo.data[0].isAdmin === true) ? 1 : 0;
   }  
 
   return (
     <Route
       {...rest}
       component={(props) => {
-        if (userInfo && isAdmin) {
+        if (isAdmin === 1) {
           return <Component {...props} />;
         } else {
           return <Redirect to={`/login`} />;
