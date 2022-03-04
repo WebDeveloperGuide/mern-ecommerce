@@ -1,8 +1,23 @@
+import {useEffect} from 'react';
+import {Link} from 'react-router-dom';
+import Product from './Product';
 import Header from '../../Header';
 import Sidebar from '../../Sidebar';
 import Footer from '../../Footer';
+import { useDispatch, useSelector } from "react-redux";
+import { listProducts } from "../../../redux/actions/ProductActions";
+import './product.css';
+
 
 const Products = () => {
+	const dispatch = useDispatch();
+
+	const productList = useSelector((state) => state.productList);
+  	const { loading, error, products } = productList;
+
+	useEffect(() => {
+    	dispatch(listProducts());
+  	}, []);
 	return(
 		<>
 		    <div className="container-scroller">		        
@@ -16,49 +31,26 @@ const Products = () => {
 		                  <div className="card">
 		                    <div className="card-body">
 		                      <h4 className="card-title">Products</h4>
+		                      <Link to="/add/product" className="btn btn-outline-primary btn-fw float-right">
+					            Add Product
+					          </Link>
 		                      <p className="card-description">
 		                      </p>
 		                      <div className="table-responsive">
-		                        <table className="table table-hover">
+		                        <table className="table table-hover products-table">
 		                          <thead>
 		                            <tr>
-		                              <th>User</th>
-		                              <th>Product</th>
-		                              <th>Sale</th>
-		                              <th>Status</th>
+		                              <th className="product-title">Title</th>
+		                              <th className="product-image">Image</th>
+		                              <th className="product-price">Price</th>
+		                              <th className="product-stock">Stock</th>
+		                              <th className="product-action">Action</th>
 		                            </tr>
 		                          </thead>
 		                          <tbody>
-		                            <tr>
-		                              <td>Jacob</td>
-		                              <td>Photoshop</td>
-		                              <td className="text-danger"> 28.76% <i className="ti-arrow-down" /></td>
-		                              <td><label className="badge badge-danger">Pending</label></td>
-		                            </tr>
-		                            <tr>
-		                              <td>Messsy</td>
-		                              <td>Flash</td>
-		                              <td className="text-danger"> 21.06% <i className="ti-arrow-down" /></td>
-		                              <td><label className="badge badge-warning">In progress</label></td>
-		                            </tr>
-		                            <tr>
-		                              <td>John</td>
-		                              <td>Premier</td>
-		                              <td className="text-danger"> 35.00% <i className="ti-arrow-down" /></td>
-		                              <td><label className="badge badge-info">Fixed</label></td>
-		                            </tr>
-		                            <tr>
-		                              <td>Peter</td>
-		                              <td>After effects</td>
-		                              <td className="text-success"> 82.00% <i className="ti-arrow-up" /></td>
-		                              <td><label className="badge badge-success">Completed</label></td>
-		                            </tr>
-		                            <tr>
-		                              <td>Dave</td>
-		                              <td>53275535</td>
-		                              <td className="text-success"> 98.05% <i className="ti-arrow-up" /></td>
-		                              <td><label className="badge badge-warning">In progress</label></td>
-		                            </tr>
+		                              {products.map((product) => (
+						                <Product product={product} key={product._id} />
+						              ))}	                            
 		                          </tbody>
 		                        </table>
 		                      </div>

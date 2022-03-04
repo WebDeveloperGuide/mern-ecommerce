@@ -34,3 +34,21 @@
   font-size: 14px;
   padding-top:2px;
 }
+
+textarea.form-control, select.form-control{
+	height: auto;
+}
+
+.fa {
+	font-size: 20px;    
+	padding: 5px;
+	cursor: pointer;
+}
+
+.fa-edit{
+	color: #0088cc;	
+}
+
+.fa-trash{
+	color: #d2322d;	
+}

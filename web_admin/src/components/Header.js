@@ -1,15 +1,16 @@
 import {Link,useHistory} from 'react-router-dom';
 import { logout } from "../redux/actions/userActions";
 import { useDispatch } from "react-redux";
+import logo from "../images/logo.svg";
+import minilogo from "../images/logo-mini.svg";
+import profilePic from "../images/faces/face8.jpg";
 
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch();  
 
   const logoutHandler = () => {
-    dispatch(logout());
-    history.push("/login");
+    dispatch(logout());    
   };
   
 	return(
@@ -22,10 +23,10 @@ const Header = () => {
             </div>
             <div>
               <Link className="navbar-brand brand-logo" to="/dashboard">
-                <img src="assets/images/logo.svg" alt="logo" />
+                <img src={logo} alt="logo" />
               </Link>
               <Link className="navbar-brand brand-logo-mini" to="/dashboard">
-                <img src="assets/images/logo-mini.svg" alt="logo" />
+                <img src={minilogo} alt="logo" />
               </Link>
             </div>
           </div>
@@ -164,10 +165,10 @@ const Header = () => {
               </li>
               <li className="nav-item dropdown d-none d-lg-block user-dropdown">
                 <a className="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img className="img-xs rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image" /> </a>
+                  <img className="img-xs rounded-circle" src={profilePic} alt="Profile image" /> </a>
                 <div className="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                   <div className="dropdown-header text-center">
-                    <img className="img-md rounded-circle" src="assets/images/faces/face8.jpg" alt="Profile image" />
+                    <img className="img-md rounded-circle" src={profilePic} alt="Profile image" />
                     <p className="mb-1 mt-3 font-weight-semibold">Allen Moreno</p>
                     <p className="fw-light text-muted mb-0">allenmoreno@gmail.com</p>
                   </div>

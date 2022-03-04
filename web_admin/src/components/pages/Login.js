@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import Loading from "../LoadingError/Loading";
 import { Login } from "../../redux/actions/userActions";
-import Message from "./../LoadingError/Error";
 
 const LoginPage = ({history}) =>{
 
@@ -11,7 +9,7 @@ const LoginPage = ({history}) =>{
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state) => state.userLogin);
-  const { error, loading, userInfo } = userLogin;
+  const { userInfo } = userLogin;
 
   const [formState,setFormState] = useState({
         values:{}       

@@ -14,25 +14,18 @@ import {
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
-} from "../Constants/ProductConstants";
+} from "../constants/ProductConstants";
 import axios from "axios";
 import { logout } from "./userActions";
+import { toast } from "react-toastify";
+import {ToastObjects} from "./toastObject";
 
 export const listProducts = () => async (dispatch, getState) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    const { data } = await axios.get(`/api/products/all`, config);
+    const responseData = await axios.get(`/products`);
+    const data = responseData.data.data
 
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
@@ -43,6 +36,9 @@ export const listProducts = () => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
+
+    toast.error(message);
+
     dispatch({
       type: PRODUCT_LIST_FAIL,
       payload: message,
@@ -50,22 +46,12 @@ export const listProducts = () => async (dispatch, getState) => {
   }
 };
 
-// DELETE PRODUCT
+// Delete Product
 export const deleteProduct = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: PRODUCT_DELETE_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
-    await axios.delete(`/api/products/${id}`, config);
+    await axios.delete(`/api/products/${id}`);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
   } catch (error) {
@@ -83,30 +69,27 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
   }
 };
 
-// CREATE PRODUCT
-export const createProduct =
-  (name, price, description, image, countInStock) =>
-  async (dispatch, getState) => {
+// Create Product
+export const createProduct = (reqData) => async (dispatch, getState) => {
+    
     try {
       dispatch({ type: PRODUCT_CREATE_REQUEST });
 
-      const {
-        userLogin: { userInfo },
-      } = getState();
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
-
-      const { data } = await axios.post(
-        `/api/products/`,
-        { name, price, description, image, countInStock },
-        config
+      const response = await axios.post(
+        `products/`,
+        reqData
       );
 
-      dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
+      const responseData = response.data;
+
+      if (!responseData.status) {
+        toast.error(responseData.message, ToastObjects);  
+      }else{
+        toast.success(responseData.message, ToastObjects);        
+        dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: responseData.data });  
+      }
+      
+      
     } catch (error) {
       const message =
         error.response && error.response.data.message
@@ -115,6 +98,9 @@ export const createProduct =
       if (message === "Not authorized, token failed") {
         dispatch(logout());
       }
+
+      toast.error(message, ToastObjects);
+
       dispatch({
         type: PRODUCT_CREATE_FAIL,
         payload: message,
@@ -122,7 +108,7 @@ export const createProduct =
     }
   };
 
-// EDIT PRODUCT
+// Edit Product
 export const editProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_EDIT_REQUEST });
@@ -143,26 +129,14 @@ export const editProduct = (id) => async (dispatch) => {
   }
 };
 
-// UPDATE PRODUCT
+// Update Product
 export const updateProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({ type: PRODUCT_UPDATE_REQUEST });
 
-    const {
-      userLogin: { userInfo },
-    } = getState();
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-    };
-
     const { data } = await axios.put(
       `/api/products/${product._id}`,
-      product,
-      config
+      product      
     );
 
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
