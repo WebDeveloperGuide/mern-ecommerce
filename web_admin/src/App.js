@@ -4,6 +4,7 @@ import Register from "./components/pages/Register";
 import Dashboard from "./components/pages/Dashboard";
 import Products from "./components/pages/product/Products";
 import AddProduct from "./components/pages/product/AddProduct";
+import EditProduct from "./components/pages/product/EditProduct";
 import Categories from "./components/pages/category/Categories";
 import Orders from "./components/pages/order/Orders";
 import Users from "./components/pages/user/Users";
@@ -25,7 +26,8 @@ function App() {
           <AuthRoute path="/register" component={Register} />
           <PrivateRouter path="/dashboard" component={Dashboard} />
           <PrivateRouter path="/products" component={Products} />
-          <PrivateRouter path="/add/product" component={AddProduct} />
+          <PrivateRouter path="/product/add" component={AddProduct} />
+          <PrivateRouter path="/product/edit/:id" component={EditProduct} />
           <PrivateRouter path="/categories" component={Categories} />
           <PrivateRouter path="/orders" component={Orders} />
           <PrivateRouter path="/users" component={Users} />

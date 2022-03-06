@@ -15,7 +15,10 @@ function PrivateRouter({ component: Component, ...rest }) {
       {...rest}
       component={(props) => {
         if (isAdmin === 1) {
-          return <Component {...props} />;
+          //If page is on home page with only / then redirect to dashboard route
+          return (props.location.pathname === '/') ? 
+            <Redirect to={`/dashboard`} /> :
+            <Component {...props} />;
         } else {
           return <Redirect to={`/login`} />;
         }

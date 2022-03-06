@@ -71,9 +71,9 @@ export const productEditReducer = (
     case PRODUCT_EDIT_REQUEST:
       return { ...state, loading: true };
     case PRODUCT_EDIT_SUCCESS:
-      return { loading: false, product: action.payload };
+      return { loading: false, product: action.payload.data };
     case PRODUCT_EDIT_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload.data };
     default:
       return state;
   }

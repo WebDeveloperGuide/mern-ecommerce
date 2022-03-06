@@ -48,12 +48,20 @@ export const listProducts = () => async (dispatch, getState) => {
 
 // Delete Product
 export const deleteProduct = (id) => async (dispatch, getState) => {
+
   try {
     dispatch({ type: PRODUCT_DELETE_REQUEST });
 
-    await axios.delete(`/api/products/${id}`);
+    const response = await axios.delete(`/products/${id}`);
 
-    dispatch({ type: PRODUCT_DELETE_SUCCESS });
+    const responseData = response.data;
+
+    if (!responseData.success) {
+        toast.error(responseData.message, ToastObjects);  
+      }else{
+        toast.success(responseData.message, ToastObjects);  
+        dispatch({ type: PRODUCT_DELETE_SUCCESS });
+    }
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -62,6 +70,9 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
+
+    toast.error(message, ToastObjects);
+    
     dispatch({
       type: PRODUCT_DELETE_FAIL,
       payload: message,
@@ -112,7 +123,7 @@ export const createProduct = (reqData) => async (dispatch, getState) => {
 export const editProduct = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_EDIT_REQUEST });
-    const { data } = await axios.get(`/api/products/${id}`);
+    const { data } = await axios.get(`/products/find/${id}`);
     dispatch({ type: PRODUCT_EDIT_SUCCESS, payload: data });
   } catch (error) {
     const message =
@@ -130,13 +141,14 @@ export const editProduct = (id) => async (dispatch) => {
 };
 
 // Update Product
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProduct = (reqData) => async (dispatch, getState) => {
+
   try {
     dispatch({ type: PRODUCT_UPDATE_REQUEST });
-
+    let _id = 0;
     const { data } = await axios.put(
-      `/api/products/${product._id}`,
-      product      
+      `/products/${reqData._id}`,
+      reqData      
     );
 
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });

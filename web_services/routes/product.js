@@ -60,7 +60,7 @@ router.get("/find/:id", async (req,res)=>{
 		const productData = await Product.findById(req.params.id);
 		
 		if(productData){
-			res.status(200).json({success:1,message:"",data:[productData]});
+			res.status(200).json({success:1,message:"",data:productData});
 		}else{
 			res.status(200).json({success:0,message:"No Data Found!"})
 		}
@@ -73,17 +73,18 @@ router.get("/find/:id", async (req,res)=>{
 
 // Delete Product
 router.delete("/:id",verifyTokenAndAdmin,async (req,res)=>{
-	
+
 	try{
 		const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-		
+	
 		if(deletedProduct == null){
 			res.status(200).json({success:0,message:"No Data Found!"});
 		}else{
 			res.status(200).json({success:1,message:"Product deleted successfully"});
-		}
+		}		
 		
 	}catch(err){
+		
 		res.status(500).json({status:0,message:err.message})
 	}
 });

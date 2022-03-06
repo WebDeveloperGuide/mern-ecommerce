@@ -8,16 +8,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../../redux/actions/ProductActions";
 import './product.css';
 
-
 const Products = () => {
 	const dispatch = useDispatch();
 
 	const productList = useSelector((state) => state.productList);
-  	const { loading, error, products } = productList;
+  	const { loading, error, products } = productList;  	
 
 	useEffect(() => {
     	dispatch(listProducts());
-  	}, []);
+  	}, [dispatch]);
+
 	return(
 		<>
 		    <div className="container-scroller">		        
@@ -31,7 +31,7 @@ const Products = () => {
 		                  <div className="card">
 		                    <div className="card-body">
 		                      <h4 className="card-title">Products</h4>
-		                      <Link to="/add/product" className="btn btn-outline-primary btn-fw float-right">
+		                      <Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
 					            Add Product
 					          </Link>
 		                      <p className="card-description">

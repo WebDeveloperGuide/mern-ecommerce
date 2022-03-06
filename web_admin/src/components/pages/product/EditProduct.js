@@ -1,23 +1,49 @@
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Header from '../../Header';
 import Sidebar from '../../Sidebar';
 import Footer from '../../Footer';
-import {createProduct} from '../../../redux/actions/ProductActions'; 
+import {editProduct} from '../../../redux/actions/ProductActions'; 
+import {updateProduct} from '../../../redux/actions/ProductActions'; 
+import { PRODUCT_UPDATE_RESET } from "../../../redux/constants/ProductConstants";
+import { toast } from "react-toastify";
+import {ToastObjects} from '../../../redux/actions/toastObject'; 
 
-const AddProduct = () => {
-
+const EditProduct = ({match}) => {	
+  const productId = match.params.id;
   const [submitted, setSubmitted] = useState(false);  
   const dispatch = useDispatch();
 
-  const userRegister = useSelector((state) => state.userRegister);
-  const { error, loading, register_status } = userRegister;
+  const productEdit = useSelector((state) => state.productEdit);
+  const { loading, error, product } = productEdit;
 
+  const productUpdate = useSelector((state) => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
 
   const [formState,setFormState] = useState({
         values:{}       
-    });
+  });
+  
+  useEffect(() => {
+  	setFormState({values:{}})
+  	if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      toast.success("Product updated successfully", ToastObjects);
+    } else {
+      if (!product.title || product._id !== productId) {
+        dispatch(editProduct(productId));        
+      } else {
+        setFormState({values:product})
+      }
+    }
+    
+  }, [product, dispatch, productId, successUpdate]);
+  
 
   const handleChange = (event) => {
         setFormState(formState =>({
@@ -38,8 +64,7 @@ const AddProduct = () => {
         setSubmitted(true); 
         const { title, description, image } = formState.values;
         if (title && description && image) {
-            dispatch(createProduct(formState.values));
-            setFormState({values:{}});
+            dispatch(updateProduct(formState.values));         
             setSubmitted(false);
         }
     }
@@ -56,7 +81,7 @@ const AddProduct = () => {
 				               <div className="col-12 grid-margin">
 				                  <div className="card">
 				                     <div className="card-body">
-				                        <h4 className="card-title">Add Product</h4>
+				                        <h4 className="card-title">Edit Product</h4>
 				                        <form className="form-sample" onSubmit={handleSubmit}>
 				                           <p className="card-description">				                              
 				                           </p>
@@ -185,7 +210,7 @@ const AddProduct = () => {
 				                              </div>				                              
 				                           </div>
 				                            <div className="text-center">
-				                            	<button type="submit" className="btn btn-primary me-2">Submit</button>
+				                            	<button type="submit" className="btn btn-primary me-2">Update</button>
                     							<Link to="/products"><button className="btn btn-light">Cancel</button></Link>
                     						</div>
 				                        </form>
@@ -202,4 +227,4 @@ const AddProduct = () => {
 		)
 }
 
-export default AddProduct;
+export default EditProduct;
