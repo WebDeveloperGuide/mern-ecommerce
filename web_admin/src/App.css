@@ -52,3 +52,13 @@ textarea.form-control, select.form-control{
 .fa-trash{
 	color: #d2322d;	
 }
+
+.page-link{
+	color:#172d88;	
+}
+
+.page-item.active .page-link, .pagination .page-item .page-link:focus{
+	background-color: #172d88;
+	box-shadow: none;
+	color:#fff;
+}

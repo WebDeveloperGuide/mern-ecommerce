@@ -6,17 +6,25 @@ import Sidebar from '../../Sidebar';
 import Footer from '../../Footer';
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../../redux/actions/ProductActions";
+import ReactPaginate from 'react-paginate';
 import './product.css';
 
 const Products = () => {
 	const dispatch = useDispatch();
 
 	const productList = useSelector((state) => state.productList);
-  	const { loading, error, products } = productList;  	
+  	const { loading, error, products, numOfPages } = productList;  	
+
+  	let pageNum = 0;
+  	let productsPerPage = 1;
+  	const handlePageClick = (data) => {
+  		pageNum = data.selected;   		
+  		dispatch(listProducts(pageNum,productsPerPage));
+  	}
 
 	useEffect(() => {
-    	dispatch(listProducts());
-  	}, [dispatch]);
+    	dispatch(listProducts(pageNum,productsPerPage));
+  	}, [productsPerPage]);
 
 	return(
 		<>
@@ -53,6 +61,31 @@ const Products = () => {
 						              ))}	                            
 		                          </tbody>
 		                        </table>
+		                      </div>
+		                      <div className="mt-4">
+		                      	{
+		                      		
+		                      		<ReactPaginate						        
+							        previousLabel={"Previous"}
+							        nextLabel={"Next"}
+							        breakLabel={"..."}
+							        pageCount={numOfPages}
+							        marginPagesDisplayed={2}
+							        pageRangeDisplayed={3}
+							        onPageChange={handlePageClick}
+							        containerClassName={"pagination justify-content-center"}
+							        pageClassName={"page-item"}
+							        pageLinkClassName={"page-link"}
+							        previousClassName={"page-item"}
+							        previousLinkClassName={"page-link"}
+							        nextClassName={"page-item"}
+							        nextLinkClassName={"page-link"}
+							        breakClassName={"page-item"}
+							        breakLinkClassName={"page-link"}
+							        activeClassName={"active"}
+							      /> 
+		                      	}	
+			                      
 		                      </div>
 		                    </div>
 		                  </div>

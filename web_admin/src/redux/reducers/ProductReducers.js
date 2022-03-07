@@ -19,14 +19,14 @@ import {
 } from "../constants/ProductConstants";
 
 // All Products
-export const productListReducer = (state = { products: [] }, action) => {
+export const productListReducer = (state = { products: [], numOfPages:0 }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload };
+      return { loading: false, products: action.payload.data, numOfPages: action.payload.numOfPages };
     case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload };
+      return { loading: false, error: action.payload.data, numOfPages: action.payload.numOfPages };
     default:
       return state;
   }

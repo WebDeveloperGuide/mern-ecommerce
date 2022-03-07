@@ -38,12 +38,18 @@ router.put("/:id",verifyTokenAndAdmin,async (req,res)=>{
 
 //Get All Products
 router.get("/", async (req,res)=>{
-	
 	try{
-		const productData = await Product.find();
 		
+		const itemPerPage = parseInt(req.query.limit || "10"); //Products per page
+  		const pageNum = parseInt(req.query.page || "0"); //Products page number
+
+ 		const totalProducts = await Product.countDocuments({});
+		const productData = await Product.find({}).limit(itemPerPage).skip(itemPerPage * pageNum);      
+
+		let numOfPages = parseInt(totalProducts/itemPerPage);
+
 		if(productData){
-			res.status(200).json({success:1,message:"",data:productData});
+			res.status(200).json({success:1,message:"", numOfPages ,data:productData});
 		}else{
 			res.status(200).json({success:0,message:"No Data Found!"})
 		}
