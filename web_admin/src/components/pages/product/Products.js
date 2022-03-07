@@ -16,7 +16,7 @@ const Products = () => {
   	const { loading, error, products, numOfPages } = productList;  	
 
   	let pageNum = 0;
-  	let productsPerPage = 1;
+  	let productsPerPage = 10;
   	const handlePageClick = (data) => {
   		pageNum = data.selected;   		
   		dispatch(listProducts(pageNum,productsPerPage));
@@ -62,10 +62,8 @@ const Products = () => {
 		                          </tbody>
 		                        </table>
 		                      </div>
-		                      <div className="mt-4">
-		                      	{
-		                      		
-		                      		<ReactPaginate						        
+		                      <div className={ 'mt-4' + (numOfPages ? '' : ' d-none')}>
+		                      	<ReactPaginate						        
 							        previousLabel={"Previous"}
 							        nextLabel={"Next"}
 							        breakLabel={"..."}
@@ -83,9 +81,7 @@ const Products = () => {
 							        breakClassName={"page-item"}
 							        breakLinkClassName={"page-link"}
 							        activeClassName={"active"}
-							      /> 
-		                      	}	
-			                      
+							      />
 		                      </div>
 		                    </div>
 		                  </div>
