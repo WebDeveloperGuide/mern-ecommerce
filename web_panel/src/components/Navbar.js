@@ -1,4 +1,5 @@
 import React, {useEffect,useState} from 'react';
+import {Link} from 'react-router-dom';
 import logo from '../images/logo.svg';
 
 const NavBar = () => {
@@ -23,17 +24,17 @@ const NavBar = () => {
 			            </button>
 			            <ul className="nav-links">
 			              <li>
-			                <a href="index.html" className="nav-link"> home </a>
+			                <Link to="/" className="nav-link"> home </Link>
 			              </li>
 			              <li>
-			                <a href="products.html" className="nav-link"> products </a>
+			                <Link to="/products" className="nav-link"> products </Link>
 			              </li>
 			              <li>
-			                <a href="about.html" className="nav-link"> about </a>
+			                <Link to="/about" className="nav-link"> about </Link>
 			              </li>
 			            </ul>
 			          </div>
-			          <img src={logo} className="nav-logo" alt="logo" />
+			          <Link to="/"><img src={logo} className="nav-logo" alt="logo" /></Link>
 			          <div className="toggle-container">
 			          	<button className="toggle-cart" onClick={toggleCart}>
 			              <i className="fas fa-shopping-cart" />

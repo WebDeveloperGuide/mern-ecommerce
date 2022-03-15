@@ -883,3 +883,16 @@ Cart
   width: 100%;
   object-fit: contain;
 }
+
+.slick-slider, .slick-list{
+  height: 400px;
+}
+
+.not-found-page{
+  text-align: center;
+  margin-top: 20px;
+}
+.not-found-text{
+    margin-bottom: 15px;
+    margin-top: -20px;
+}
