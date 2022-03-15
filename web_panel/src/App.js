@@ -4,11 +4,13 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
+import Toast from "./components/Toast";
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
     <>
+      <Toast/>
       <Router>
         <Switch>
         	<Route path="/" component={Home} exact/>

@@ -9,6 +9,9 @@ import Cart from '../components/Cart';
 import Loading from '../components/Loading';
 import axios from 'axios';
 import {setProductDetail,resetProductDetail} from '../redux/actions/productActions';
+import { toast } from 'react-toastify';
+import {ToastObjects} from "../util/toastObject";
+
 
 const ProductDetailPage = () => {
 
@@ -19,10 +22,13 @@ const ProductDetailPage = () => {
 
 	const fetchProductDetail = async() =>{
 		const response = await axios.get(`https://dummyjson.com/products/${id}`).catch((err) =>{
-			console.log(err);
+		  toast.error("No data found", ToastObjects);
 		});
 		
-		dispatch(setProductDetail(response.data));
+		if(response){
+			dispatch(setProductDetail(response.data));	
+		}
+		
 	};
 
 	useEffect(()=>{
