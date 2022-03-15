@@ -1,8 +1,7 @@
 import React, {useEffect} from 'react';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
 import {useSelector,useDispatch} from 'react-redux';
-import {setProducts} from '../redux/actions/productActions';
+import {getProducts} from '../redux/actions/productActions';
 import Product from './Product';
 import Loading from '../components/Loading';
 
@@ -18,16 +17,8 @@ const FeaturedProducts = () => {
 	
 	const dispatch = useDispatch();
 
-	const fetchProducts = async() =>{
-		const response = await axios.get("https://dummyjson.com/products").catch((err) =>{
-			console.log(err);
-		});
-
-		dispatch(setProducts(response.data.products));
-	};
-
 	useEffect(()=>{
-		fetchProducts();
+		dispatch(getProducts());
 	},[])
 
 	return(

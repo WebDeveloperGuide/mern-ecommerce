@@ -7,7 +7,6 @@ import ProductDetail from '../components/ProductDetail';
 import Sidebar from '../components/Sidebar';
 import Cart from '../components/Cart';
 import Loading from '../components/Loading';
-import axios from 'axios';
 import {setProductDetail,resetProductDetail} from '../redux/actions/productActions';
 import { toast } from 'react-toastify';
 import {ToastObjects} from "../util/toastObject";
@@ -18,22 +17,11 @@ const ProductDetailPage = () => {
 	const {id} = useParams();
 	const productDetail = useSelector((state)=> state.allProducts.productDetail);
 
-	const dispatch = useDispatch();
-
-	const fetchProductDetail = async() =>{
-		const response = await axios.get(`https://dummyjson.com/products/${id}`).catch((err) =>{
-		  toast.error("No data found", ToastObjects);
-		});
-		
-		if(response){
-			dispatch(setProductDetail(response.data));	
-		}
-		
-	};
+	const dispatch = useDispatch();	
 
 	useEffect(()=>{
 		if(id && id != ""){
-			fetchProductDetail();	
+			dispatch(setProductDetail(id));
 		}
 
 		return () => {
