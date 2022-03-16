@@ -1,12 +1,16 @@
 import React, {useEffect,useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 import logo from '../images/logo.svg';
+import {showCart} from '../redux/actions/cartActions';
+
 
 const NavBar = () => {
+	const dispatch = useDispatch();
+	const showCartStatus = useSelector((state)=> state.cart.showCart);
 
-	const [isCartOpen,setIsCartOpen] = useState(false);
 	const toggleCart = () => {
-		setIsCartOpen(true);
+		dispatch(showCart(!showCartStatus))
 	}
 
 	useEffect(() => {
