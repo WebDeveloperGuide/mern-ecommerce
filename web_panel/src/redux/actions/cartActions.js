@@ -20,14 +20,26 @@ export const showCart = (cartStatus) => async(dispatch) =>{
 }
 
 
-export const setProductDetail = (id) => async(dispatch) =>{	
+export const addToCart = (product,qty) => (dispatch,getState) => {
 	try{
-		const response = await axios.get(`https://dummyjson.com/products/${id}`);
-		console.log(response)
-		dispatch({ type: ActionTypes.SET_PRODUCT_DETAIL, payload: response.data });
+		
+		dispatch({
+		    type: ActionTypes.ADD_ITEM_TO_CART,
+		    payload: {
+		      id: product.id,
+		      name: product.title,
+		      image: product.thumbnail,
+		      price: product.price,
+		      countInStock: product.stock,
+		      qty,
+		    }
+		  });
 
-	} catch (error){
+		  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 
+		  toast.error("Added to Cart", ToastObjects);
+
+	}catch (error){
 		const message =
       error.response && error.response.data.message
         ? error.response.data.message
@@ -35,8 +47,4 @@ export const setProductDetail = (id) => async(dispatch) =>{
 
         toast.error(message, ToastObjects);
 	}
-}
-
-export const resetProductDetail = () => async(dispatch) =>{
-	dispatch({ type: ActionTypes.RESET_PRODUCT_DETAIL});	
 }

@@ -1,13 +1,15 @@
 import React from 'react';
 
-const CartProduct = () => {
+const CartProduct = ({detail}) => {
+	
+	const {image, name, price} = detail;
 	return(
 			<>
 				<article className="cart-item">
-	              <img src="https://dl.airtable.com/.attachments/14ac9e946e1a02eb9ce7d632c83f742f/4fd98e64/product-1.jpeg" className="cart-item-img" alt="product" />
+	              <img src={image} className="cart-item-img" alt="product" />
 	              <div className="cart-item-info">
-	                <h5 className="cart-item-name">high-back bench</h5>
-	                <span className="cart-item-price">$19.99</span>
+	                <h5 className="cart-item-name">{name}</h5>
+	                <span className="cart-item-price">${price}</span>
 	                <button className="cart-item-remove-btn">remove</button>
 	              </div>
 	              <div>

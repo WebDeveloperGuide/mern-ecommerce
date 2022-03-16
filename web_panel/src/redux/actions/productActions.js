@@ -23,7 +23,6 @@ export const getProducts = () => async(dispatch) =>{
 export const setProductDetail = (id) => async(dispatch) =>{	
 	try{
 		const response = await axios.get(`https://dummyjson.com/products/${id}`);
-		console.log(response)
 		dispatch({ type: ActionTypes.SET_PRODUCT_DETAIL, payload: response.data });
 
 	} catch (error){

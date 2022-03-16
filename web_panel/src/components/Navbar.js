@@ -8,6 +8,7 @@ import {showCart} from '../redux/actions/cartActions';
 const NavBar = () => {
 	const dispatch = useDispatch();
 	const showCartStatus = useSelector((state)=> state.cart.showCart);
+	const cartItemsCount = useSelector((state)=> state.cart.cartItems).length;
 
 	const toggleCart = () => {
 		dispatch(showCart(!showCartStatus))
@@ -43,7 +44,7 @@ const NavBar = () => {
 			          	<button className="toggle-cart" onClick={toggleCart}>
 			              <i className="fas fa-shopping-cart" />
 			            </button>
-			            <span className="cart-item-count">2</span>
+			            <span className="cart-item-count">{cartItemsCount}</span>
 			          </div>
 			        </div>
 			    </nav>			

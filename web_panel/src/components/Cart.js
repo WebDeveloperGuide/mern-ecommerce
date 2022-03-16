@@ -6,6 +6,12 @@ import {showCart} from '../redux/actions/cartActions';
 
 const Cart = () => {
 	const showCartStatus = useSelector((state)=> state.cart.showCart);
+	const cartItems = useSelector((state)=> state.cart.cartItems);
+	const cartItemsList = cartItems.map((product)=>{
+		return(
+			<CartProduct detail={product} key={product.id}/>
+			)
+	})
 	const dispatch = useDispatch();
 	const closeCart = () => {
 		dispatch(showCart(false))
@@ -19,12 +25,20 @@ const Cart = () => {
 			            <i className="fas fa-times" />
 			          </button>
 			          <header>
-			            <h3 className="text-slanted">your bag</h3>
+			            <h3 className="text-slanted">Shopping Cart</h3>
 			          </header>
 			          {/* cart items */}
 			          <div className="cart-items">
-			            <CartProduct/>			            
-			            <CartProduct/>
+			          	{
+			          		cartItems.length === 0 ? (
+								<div className="empty-cart">
+									Your cart is empty
+								</div>
+			          		):(
+			          			cartItemsList
+			          		) 
+			          		
+			          	}
 			          </div>
 			          <CartTotal/>
 			        </aside>
