@@ -8,7 +8,11 @@ import {showCart} from '../redux/actions/cartActions';
 const NavBar = () => {
 	const dispatch = useDispatch();
 	const showCartStatus = useSelector((state)=> state.cart.showCart);
-	const cartItemsCount = useSelector((state)=> state.cart.cartItems).length;
+	const cartItems = useSelector((state)=> state.cart.cartItems);
+	let cartItemsCount = cartItems.reduce((total, item)=>{
+		return total + item.qty
+	}, 0);
+
 
 	const toggleCart = () => {
 		dispatch(showCart(!showCartStatus))

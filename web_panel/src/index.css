@@ -910,3 +910,16 @@ Cart
   margin:150px 0;
   text-align: center;
 }
+
+.cart-item-remove-btn i{
+  color: red;
+  font-size: 17px;
+}
+
+.hide{
+  display: none;
+}
+
+.disabled { 
+  cursor: not-allowed; 
+}

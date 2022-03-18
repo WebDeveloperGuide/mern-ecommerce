@@ -37,7 +37,7 @@ export const addToCart = (product,qty) => (dispatch,getState) => {
 
 		  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 
-		  toast.error("Added to Cart", ToastObjects);
+		  toast.success("Added to Cart", ToastObjects);
 
 	}catch (error){
 		const message =
@@ -48,3 +48,33 @@ export const addToCart = (product,qty) => (dispatch,getState) => {
         toast.error(message, ToastObjects);
 	}
 }
+
+// Remove item from cart
+export const removeFromCart = (id) => (dispatch, getState) => {
+  dispatch({
+    type: ActionTypes.CART_REMOVE_ITEM,
+    payload: id,
+  });
+	toast.success("Item Removed From Cart", ToastObjects);
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+// Remove item from cart
+export const increaseProductQty = (id) => (dispatch, getState) => {
+  dispatch({
+    type: ActionTypes.INCREASE_ITEM,
+    payload: id,
+  });
+	
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+// Remove item from cart
+export const decreaseProductQty = (id) => (dispatch, getState) => {
+  dispatch({
+    type: ActionTypes.DECREASE_ITEM,
+    payload: id,
+  });
+	
+  localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
