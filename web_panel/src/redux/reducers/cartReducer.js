@@ -21,10 +21,10 @@ export const cartReducer = (state = initialState,{type,payload}) => {
 		case ActionTypes.ADD_ITEM_TO_CART:
 	      const newItem = payload;
 	      const existItem = state.cartItems.find((x) => x.id === newItem.id);
-	      
+
 	      if (existItem) {
-	      	const tempNewCart = state.cartItems.map((item) => {
-	      	  if (newItem.id === existItem.id) {
+	      	const tempNewCart = state.cartItems.map((item) => {	      		
+	      	  if (item.id === existItem.id) {
 		          let newQty = parseInt(newItem.qty) + parseInt(existItem.qty)
 		          return { ...item, qty: newQty }		        		        
 		      }
