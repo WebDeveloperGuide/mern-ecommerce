@@ -10,7 +10,7 @@ const {userLogin: { userInfo }} = store.getState();
 axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-if(typeof userInfo != undefined && userInfo !== null){
+if(typeof userInfo !== 'undefined' && userInfo !== null){
 	const token = userInfo.token;
 	if(typeof token != undefined && token){
 		axios.defaults.headers.common['Authorization'] = `Bearer ${userInfo.token}`;//send token

@@ -285,8 +285,8 @@ Navbar
   background: var(--primary-300);
 }
 .toggle-container {
-  position: relative;
-  margin-top: 0.75rem;
+  position: relative;  
+  margin-right: 20px;
 }
 .toggle-cart {
   background: transparent;
@@ -527,11 +527,12 @@ About Page
 ===============
 */
 .page-hero {
-  min-height: 20vh;
+  min-height: 60px;
   display: grid;
   place-items: center;
   background: var(--grey-200);
   color: var(--grey-500);
+  height: 60px;
 }
 
 .page-hero-title {
@@ -922,4 +923,52 @@ Cart
 
 .disabled { 
   cursor: not-allowed; 
+}
+
+.auth-section, .auth-container{
+  display: flex;
+  align-items: center;
+  justify-content:flex-end;
+}
+
+.product-icons a:hover{
+  color: var(--white);
+  text-decoration: none;
+}
+
+.nav-link{
+  padding: 0
+}
+
+a, a:hover {
+  text-decoration: none;
+}
+
+.inline-errormsg{
+  color:#dc3545;
+  font-size: 14px;
+  padding-top:2px;
+}
+
+.auth-page-container .input-group-append.is-invalid{
+    border-top: 1px solid red;
+    border-left: 1px solid red;
+    border-bottom: 1px solid red;
+}
+
+.auth-page-container .inline-errormsg{
+  margin-left: 41px;
+}
+
+.auth-container .dropdown-toggle{
+  background:transparent;
+  color: var(--grey-900);
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+ .show>.btn-secondary.dropdown-toggle{
+  color: var(--grey-900);
+  box-shadow:none;
+  background-color: transparent;
+  border-color:transparent;
 }
