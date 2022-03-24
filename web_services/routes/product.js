@@ -42,19 +42,28 @@ router.get("/", async (req,res)=>{
 		
 		const itemPerPage = parseInt(req.query.limit || "10"); //Products per page
   		const pageNum = parseInt(req.query.page || "0"); //Products page number
-  		const sortByVal = (req.query.sortBy || "_id"); //Products page number
+  		const sortByVal = (req.query.sortBy || "_id"); //Products sort by
+		const searchText = (req.query.searchText || ""); //Products search text
+
   		
-  		var sortObject = {};
+  		let sortObject = {};
+  		let searchObject = {};
   		sortByField = sortByVal;
   		if(sortByVal == 'name'){
   			sortByField = 'title'; 
   		}
 
+  		if(searchText !== ''){
+  			searchObject = {$or:[{ title: { $regex: searchText, $options:'i' }}
+  								,{ description: { $regex: searchText, $options:'i' } }
+  								]};
+  		}
+
   		sortObject[sortByField] = 1;
   		
   		
-  		const totalProducts = await Product.countDocuments({});
-		const productData = await Product.find({}).sort(sortObject).limit(itemPerPage).skip(itemPerPage * pageNum);
+  		const totalProducts = await Product.countDocuments(searchObject);
+		const productData = await Product.find(searchObject).sort(sortObject).limit(itemPerPage).skip(itemPerPage * pageNum);
 
 		
 

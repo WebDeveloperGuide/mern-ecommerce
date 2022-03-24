@@ -62,3 +62,7 @@ textarea.form-control, select.form-control{
 	box-shadow: none;
 	color:#fff;
 }
+
+.form-control{
+	height: calc(2.25rem + 4px);
+}

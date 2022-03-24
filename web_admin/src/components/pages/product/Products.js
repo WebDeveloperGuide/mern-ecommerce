@@ -12,6 +12,7 @@ import './product.css';
 const Products = () => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(0);	
+	const [searchTerm, setSearchTerm] = useState('');
 
 	const productList = useSelector((state) => state.productList);
   	const { loading, error, products, numOfPages, sortBy, searchText } = productList;  	
@@ -28,11 +29,22 @@ const Products = () => {
     	dispatch(listProducts(pageNum,productsPerPage, sortBy, searchText));
   	}, [productsPerPage]);
 
+  	//Call Function after stop typing text
+  	useEffect(() => {
+	    const delaySearchFunc = setTimeout(() => {
+	      setCurrentPage(0);
+		  dispatch(listProducts(pageNum,productsPerPage, sortBy, searchTerm));	      
+	    }, 1500)
+
+	    return () => clearTimeout(delaySearchFunc)
+	}, [searchTerm])
+
   	const handleSortBy = (e) => {
   		const sortByValue = e.target.value;
   		setCurrentPage(0);
   		dispatch(listProducts(pageNum,productsPerPage, sortByValue, searchText));
   	}
+  	
 
 	return(
 		<>
@@ -47,15 +59,30 @@ const Products = () => {
 		                  <div className="card">
 		                    <div className="card-body">
 		                      <h4 className="card-title">Products</h4>
-		                      <Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
-					            Add Product
-					          </Link>
+		                      <div className="row">
+	                              <div className="col-md-12">
+	                                 <div className="form-group row">
+	                                    <div className="offset-md-2 col-sm-4">
+						                        <input type="text" placeholder="Search" className="form-control" 
+		                                        name="search" onChange={(e) => setSearchTerm(e.target.value)}/>
+	                                    </div>
+	                                    <div className="col-sm-3 float-right">
+	                                    	<select className="form-select form-control" aria-label="Sort By" onChange={handleSortBy}>
+											  <option value="">Sort By</option>
+											  <option value="name">Name</option>
+											  <option value="price">Price</option>
+											</select>
+	                                    </div>
+	                                    <div className="col-sm-2">
+	                                    	<Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
+									            Add Product
+									        </Link>
+	                                    </div>
+	                                 </div>
+	                              </div>				                              
+	                           </div>
 		                      <div className="float-right mr-5">
-			                      <select className="form-select" aria-label="Sort By" onChange={handleSortBy}>
-									  <option value="">Sort By</option>
-									  <option value="name">Name</option>
-									  <option value="price">Price</option>
-									</select>
+			                      
 		                      </div>		                      
 		                      <p className="card-description">
 		                      </p>
