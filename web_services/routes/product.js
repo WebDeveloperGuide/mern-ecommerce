@@ -42,9 +42,21 @@ router.get("/", async (req,res)=>{
 		
 		const itemPerPage = parseInt(req.query.limit || "10"); //Products per page
   		const pageNum = parseInt(req.query.page || "0"); //Products page number
+  		const sortByVal = (req.query.sortBy || "_id"); //Products page number
+  		
+  		var sortObject = {};
+  		sortByField = sortByVal;
+  		if(sortByVal == 'name'){
+  			sortByField = 'title'; 
+  		}
 
- 		const totalProducts = await Product.countDocuments({});
-		const productData = await Product.find({}).limit(itemPerPage).skip(itemPerPage * pageNum);      
+  		sortObject[sortByField] = 1;
+  		
+  		
+  		const totalProducts = await Product.countDocuments({});
+		const productData = await Product.find({}).sort(sortObject).limit(itemPerPage).skip(itemPerPage * pageNum);
+
+		
 
 		let numOfPages = parseInt(totalProducts/itemPerPage);
 

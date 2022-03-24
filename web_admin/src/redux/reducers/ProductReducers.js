@@ -19,14 +19,14 @@ import {
 } from "../constants/ProductConstants";
 
 // All Products
-export const productListReducer = (state = { products: [], numOfPages:0 }, action) => {
+export const productListReducer = (state = { products: [], numOfPages:0, sortBy: '', searchText:'' }, action) => {
   switch (action.type) {
     case PRODUCT_LIST_REQUEST:
       return { loading: true, products: [] };
     case PRODUCT_LIST_SUCCESS:
-      return { loading: false, products: action.payload.data, numOfPages: action.payload.numOfPages };
+      return { loading: false, products: action.payload.data, numOfPages: action.payload.numOfPages, sortBy: action.payload.sortBy, searchText: action.payload.searchText };
     case PRODUCT_LIST_FAIL:
-      return { loading: false, error: action.payload.data, numOfPages: action.payload.numOfPages };
+      return { loading: false, error: action.payload.data, numOfPages: action.payload.numOfPages, sortBy: action.payload.sortBy, searchText: action.payload.searchText };
     default:
       return state;
   }

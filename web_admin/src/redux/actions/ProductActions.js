@@ -20,12 +20,15 @@ import { logout } from "./userActions";
 import { toast } from "react-toastify";
 import {ToastObjects} from "./toastObject";
 
-export const listProducts = (pageNum,productsPerPage) => async (dispatch, getState) => {
+export const listProducts = (pageNum,productsPerPage,sortBy,searchText) => async (dispatch, getState) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    const responseData = await axios.get(`/products?page=${pageNum}&limit=${productsPerPage}`);
-    const data = responseData.data;    
+    const responseData = await axios.get(`/products?page=${pageNum}&limit=${productsPerPage}&sortBy=${sortBy}&searchText=${searchText}`);
+    const data = responseData.data;
+    data['sortBy'] = sortBy;
+    data['searchText'] = searchText;
+
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     const message =

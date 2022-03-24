@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product';
 import Header from '../../Header';
@@ -11,20 +11,28 @@ import './product.css';
 
 const Products = () => {
 	const dispatch = useDispatch();
+	const [currentPage, setCurrentPage] = useState(0);	
 
 	const productList = useSelector((state) => state.productList);
-  	const { loading, error, products, numOfPages } = productList;  	
+  	const { loading, error, products, numOfPages, sortBy, searchText } = productList;  	
 
   	let pageNum = 0;
   	let productsPerPage = 10;
   	const handlePageClick = (data) => {
-  		pageNum = data.selected;   		
-  		dispatch(listProducts(pageNum,productsPerPage));
+  		pageNum = data.selected;
+  		setCurrentPage(pageNum);	
+  		dispatch(listProducts(pageNum,productsPerPage, sortBy, searchText));
   	}
 
 	useEffect(() => {
-    	dispatch(listProducts(pageNum,productsPerPage));
+    	dispatch(listProducts(pageNum,productsPerPage, sortBy, searchText));
   	}, [productsPerPage]);
+
+  	const handleSortBy = (e) => {
+  		const sortByValue = e.target.value;
+  		setCurrentPage(0);
+  		dispatch(listProducts(pageNum,productsPerPage, sortByValue, searchText));
+  	}
 
 	return(
 		<>
@@ -42,6 +50,13 @@ const Products = () => {
 		                      <Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
 					            Add Product
 					          </Link>
+		                      <div className="float-right mr-5">
+			                      <select className="form-select" aria-label="Sort By" onChange={handleSortBy}>
+									  <option value="">Sort By</option>
+									  <option value="name">Name</option>
+									  <option value="price">Price</option>
+									</select>
+		                      </div>		                      
 		                      <p className="card-description">
 		                      </p>
 		                      <div className="table-responsive">
@@ -81,6 +96,7 @@ const Products = () => {
 							        breakClassName={"page-item"}
 							        breakLinkClassName={"page-link"}
 							        activeClassName={"active"}
+							        forcePage={currentPage}
 							      />
 		                      </div>
 		                    </div>
