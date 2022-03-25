@@ -66,3 +66,8 @@ textarea.form-control, select.form-control{
 .form-control{
 	height: calc(2.25rem + 4px);
 }
+
+.download-csv{
+	font-size: 24px;
+	margin-top: 5px;
+}

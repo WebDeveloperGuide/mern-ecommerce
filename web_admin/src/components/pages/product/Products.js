@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useState, useRef} from 'react';
 import {Link} from 'react-router-dom';
 import Product from './Product';
 import Header from '../../Header';
@@ -7,13 +7,25 @@ import Footer from '../../Footer';
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../../../redux/actions/ProductActions";
 import ReactPaginate from 'react-paginate';
+import { CSVLink } from "react-csv";
+import axios from 'axios';
 import './product.css';
+
+const headers = [
+  { label: "Name", key: "title" },
+  { label: "Description", key: "description" },
+  { label: "Image", key: "image" },
+  { label: "Price", key: "price" },
+  { label: "Stock", key: "stock" }
+];
 
 const Products = () => {
 	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(0);	
 	const [searchTerm, setSearchTerm] = useState('');
-
+	const [csvData, setCsvData] = useState([]);
+	const myRefBtn= useRef(null);
+	
 	const productList = useSelector((state) => state.productList);
   	const { loading, error, products, numOfPages, sortBy, searchText } = productList;  	
 
@@ -44,7 +56,14 @@ const Products = () => {
   		setCurrentPage(0);
   		dispatch(listProducts(pageNum,productsPerPage, sortByValue, searchText));
   	}
-  	
+
+  	const getCsvProducts = async () => {
+  		const responseData = await axios.get(`/products/all`);
+    	const data = responseData.data;
+    	setCsvData(data.data);
+    	myRefBtn.current.link.click();
+  	}
+
 
 	return(
 		<>
@@ -61,7 +80,7 @@ const Products = () => {
 		                      <h4 className="card-title">Products</h4>
 		                      <div className="row">
 	                              <div className="col-md-12">
-	                                 <div className="form-group row">
+	                                 <div className="form-group row">	                                 
 	                                    <div className="offset-md-2 col-sm-4">
 						                        <input type="text" placeholder="Search" className="form-control" 
 		                                        name="search" onChange={(e) => setSearchTerm(e.target.value)}/>
@@ -76,7 +95,18 @@ const Products = () => {
 	                                    <div className="col-sm-2">
 	                                    	<Link to="/product/add" className="btn btn-outline-primary btn-fw float-right">
 									            Add Product
-									        </Link>
+									        </Link>									        
+	                                    </div>
+	                                    <div className="col-sm-1">
+	                                    	<i className="fa fa-download download-csv" onClick={getCsvProducts} title="Download CSV"/>
+	                                    	<CSVLink 
+	                                    		data={csvData} 
+	                                    		headers={headers}
+      											className="d-none"
+      											ref={myRefBtn}
+      											filename={"Product-Data.csv"}
+	                                    		>											  
+											</CSVLink>											
 	                                    </div>
 	                                 </div>
 	                              </div>				                              

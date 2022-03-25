@@ -80,6 +80,23 @@ router.get("/", async (req,res)=>{
 	}
 })
 
+//Get All Products
+router.get("/all", async (req,res)=>{
+	try{
+  		const totalProducts = await Product.countDocuments({});
+		const productData = await Product.find({}).sort({_id: 1});
+
+		if(productData){
+			res.status(200).json({success:1,message:"", data:productData});
+		}else{
+			res.status(200).json({success:0,message:"No Data Found!"})
+		}
+		
+	}catch(err){
+		res.status(500).json({status:0,message:err.message})
+	}
+})
+
 //Get Single Product
 router.get("/find/:id", async (req,res)=>{
 	
