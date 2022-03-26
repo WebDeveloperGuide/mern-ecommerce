@@ -59,9 +59,10 @@ const RegisterPage = ({history}) => {
 		 	<section className="section section-center">
 		        <div className="container h-100">
 			        <div className="d-flex justify-content-center h-100">
-			          <div className="user_card">            
+			          <div className="user_card content-card">
+                  <h4 className="content-heading">Register</h4>       
 			            <div className="d-flex justify-content-center form_container auth-page-container">
-			              <form  className="pt-3" onSubmit={handleSubmit} autoComplete="off">
+			              <form onSubmit={handleSubmit} autoComplete="off">
 			              	<div className="input-group">
 			                  <div className={'input-group-append' + (submitted && !formState.values.name ? ' is-invalid' : '')}>
 			                    <span className="input-group-text"><i className="fas fa-user" /></span>

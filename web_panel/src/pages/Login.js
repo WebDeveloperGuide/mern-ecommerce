@@ -13,8 +13,8 @@ const LoginPage = ({history}) => {
   const [submitted, setSubmitted] = useState(false);  
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const userPanelLogin = useSelector((state) => state.userPanelLogin);
+  const { userInfo } = userPanelLogin;
 
   const [formState,setFormState] = useState({
         values:{}       
@@ -56,12 +56,13 @@ const LoginPage = ({history}) => {
 		 	<section className="section section-center">
 		        <div className="container h-100">
 			        <div className="d-flex justify-content-center h-100">
-			          <div className="user_card">            
+			          <div className="user_card content-card">     
+                  <h4 className="content-heading">Login</h4>
 			            <div className="d-flex justify-content-center form_container auth-page-container">
 			              <form onSubmit={handleSubmit} autoComplete="off">
 			                <div className="input-group">
 			                  <div className={'input-group-append' + (submitted && !formState.values.email ? ' is-invalid' : '')}>
-			                    <span className="input-group-text"><i className="fas fa-user" /></span>
+			                    <span className="input-group-text"><i className="fas fa-envelope" /></span>
 			                  </div>
 			                  <input type="email" className={'form-control form-control-lg' + (submitted && !formState.values.email ? ' is-invalid' : '')} 
                                     name="email" 

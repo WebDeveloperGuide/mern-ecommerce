@@ -78,3 +78,14 @@ export const decreaseProductQty = (id) => (dispatch, getState) => {
 	
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
 };
+
+
+// Save Shipping Address
+export const saveShippingAddress = (shippingData) => (dispatch) => {
+  dispatch({
+    type: ActionTypes.CART_SAVE_SHIPPING_ADDRESS,
+    payload: shippingData,
+  });
+
+  localStorage.setItem("shippingAddress", JSON.stringify(shippingData));
+};

@@ -10,7 +10,7 @@ const NavBar = () => {
 	const dispatch = useDispatch();
 	const showCartStatus = useSelector((state)=> state.cart.showCart);
 	const cartItems = useSelector((state)=> state.cart.cartItems);
-	const userInfo = useSelector((state)=> state.userLogin.userInfo);
+	const userInfo = useSelector((state)=> state.userPanelLogin.userInfo);
 	let isLoggedin = false;
 	let userName = '';
 	

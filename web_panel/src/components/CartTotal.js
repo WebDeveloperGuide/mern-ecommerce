@@ -1,5 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 const CartTotal = () => {
 	const cart = useSelector((state) => state.cart);
@@ -9,7 +10,7 @@ const CartTotal = () => {
 			<>
 				<footer>
 		            <h3 className="cart-total text-slanted">total : ${cartTotal}</h3>
-		            <button className="cart-checkout btn">checkout</button>
+		            <Link to="/shipping"><button className="cart-checkout btn">checkout</button></Link>
 		          </footer>
 			</>
 		)

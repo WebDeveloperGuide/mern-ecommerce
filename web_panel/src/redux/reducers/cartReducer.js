@@ -9,9 +9,19 @@ const getLocalCartItems = () => {
   }
 }
 
+const getLocalShippingAddress = () => {
+  let shippingInfo = localStorage.getItem('shippingAddress')
+  if (shippingInfo) {
+    return JSON.parse(localStorage.getItem('shippingAddress'))
+  } else {
+    return {}
+  }
+}
+
 const initialState = {
 	cartItems: getLocalCartItems(),
-	showCart:false
+	showCart:false,
+	shippingAddress: getLocalShippingAddress()
 }
 
 export const cartReducer = (state = initialState,{type,payload}) => {
@@ -64,6 +74,11 @@ export const cartReducer = (state = initialState,{type,payload}) => {
 		        ...state,
 		        cartItems: state.cartItems.filter((x) => x.id !== payload),
 		      };
+		case ActionTypes.CART_SAVE_SHIPPING_ADDRESS:
+	      return {
+	        ...state,
+	        shippingAddress: payload,
+	      };	    
 		default:
 			return state;
 	}

@@ -6,7 +6,7 @@ import store from './redux/store';
 import axios from 'axios';
 import './index.css';
 
-const {userLogin: { userInfo }} = store.getState();
+const {userPanelLogin: { userInfo }} = store.getState();
 axios.defaults.baseURL = process.env.REACT_APP_API_BASEURL;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

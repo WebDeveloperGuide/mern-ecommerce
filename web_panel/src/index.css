@@ -972,3 +972,35 @@ a, a:hover {
   background-color: transparent;
   border-color:transparent;
 }
+
+.content-card{
+  background: #fff;
+  border-radius: 5px;
+  position: relative;
+  padding: 25px 30px 30px;
+  box-shadow: 0 1px 11px rgb(168 168 168 / 27%);
+  text-align: center;
+}
+    
+.auth-page-container button{
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px 0;
+}
+
+.shipping-page-container .input-group-append.is-invalid{
+  border: 1px solid red;
+}
+
+.shipping-page-container .inline-errormsg, .payment-page-container .inline-errormsg{
+  margin-left:0;
+  text-align: left;
+}
+
+.shipping-page-content{
+  max-width: 550px;
+}
+
+.input-group-address{
+    width: 150px;
+}
