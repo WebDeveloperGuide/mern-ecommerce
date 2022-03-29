@@ -1,24 +1,27 @@
 const express = require("express");
+const dotenv = require("dotenv");
 const router = express.Router();
-const KEY = process.env.STRIPE_SECRET_KEY
-const stripe = require("stripe");
-const stripeAccess = stripe(process.env.KEY)
+dotenv.config();
 
-router.post("/payment", (req, res) => {
-  stripe.charges.create(
-    {
-      source: req.body.tokenId,
-      amount: req.body.amount,
-      currency: "usd",
-    },
-    (stripeErr, stripeRes) => {
-      if (stripeErr) {
-        res.status(500).json(stripeErr);
-      } else {
-        res.status(200).json(stripeRes);
-      }
-    }
-  );
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
+router.post("/payment", async (req, res) => {
+  try{
+    const { currency, price } = req.body;    
+
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: price,
+      currency,
+      payment_method_types: ['card'],
+    });
+
+    console.log("paymentIntent",paymentIntent)
+
+    res.status(200).json({status:1,message:"Payment added successfully"})
+  
+  }catch(err){
+    res.status(500).json({status:0,message:err.message})
+  }
 });
 
 

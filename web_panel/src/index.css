@@ -1004,3 +1004,24 @@ a, a:hover {
 .input-group-address{
     width: 150px;
 }
+
+.card-number{
+    width: 100%;
+}
+
+.StripeElement {    
+    border: 1px solid #ced4da;
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    border-radius: 0.3rem;
+    width: 400px;    
+}
+
+.payment-page-content{
+  min-width:470px;
+}
+
+.payment-page-content .form-control{
+  min-width:400px; 
+}
