@@ -3,7 +3,8 @@ import {useDispatch} from 'react-redux';
 import {addToCart} from '../redux/actions/cartActions';
 
 const Products = (props) => {
-	const {id,thumbnail,title,price,description} = props.details;
+	const productDetails = props.details.data;
+	const {image,title,price,description} = productDetails;
 	const [itemQty, setItemQty] = useState(1);
 	const dispatch = useDispatch();
 	const addToCartHandle = (product) => {
@@ -17,7 +18,7 @@ const Products = (props) => {
 			<>
 			    <section className="single-product section">
 			        <div className="section-center single-product-center">
-			          <img src={thumbnail} className="single-product-img img" alt="" />
+			          <img src={image} className="single-product-img img" alt="" />
 			          <article className="single-product-info">
 			            <div>
 			              <h2 className="single-product-title">{title}</h2>
@@ -44,7 +45,7 @@ const Products = (props) => {
 							    <option value="10">10</option>
 							</select>
 			              </p>
-			              <button className="addToCartBtn btn" data-id="id" onClick={() => addToCartHandle(props.details)}>add to cart</button>
+			              <button className="addToCartBtn btn" data-id="id" onClick={() => addToCartHandle(productDetails)}>add to cart</button>
 			            </div>
 			          </article>
 			        </div>

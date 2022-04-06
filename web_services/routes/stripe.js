@@ -11,13 +11,11 @@ router.post("/payment", async (req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: price,
-      currency,
+      currency: 'usd',
       payment_method_types: ['card'],
-    });
+    });    
 
-    console.log("paymentIntent",paymentIntent)
-
-    res.status(200).json({status:1,message:"Payment added successfully"})
+    res.status(200).json({status:1,message:"Payment processed successfully"})
   
   }catch(err){
     res.status(500).json({status:0,message:err.message})

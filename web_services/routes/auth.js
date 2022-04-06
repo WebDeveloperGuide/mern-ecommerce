@@ -40,6 +40,7 @@ router.post("/login",async (req,res)=>{
 			if(req.body.password!=originalPassword){
 				res.status(200).json({success:0,message:"Invalid Email or Password"});
 			}else{
+				console.log("process.env.JWT_SECRET",process.env.JWT_SECRET)
 				const accessToken = jwt.sign(
 					{
 						id:user._id,

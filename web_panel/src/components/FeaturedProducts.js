@@ -11,7 +11,7 @@ const FeaturedProducts = () => {
 	const featuredProduct = products.slice(0, 6);
 	const renderList = featuredProduct.map((product)=>{
 		return(
-			<Product detail={product} key={product.id}/>
+			<Product detail={product} key={product._id}/>
 			)
 	})
 	

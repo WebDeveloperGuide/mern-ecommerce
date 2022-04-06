@@ -16,6 +16,13 @@ const ShippingPage = ({history}) => {
   const shippingAddress = useSelector((state) => state.cart.shippingAddress);
   const { street1, street2, city, state, zip, country } = shippingAddress;
 
+  const cartItems = useSelector((state)=> state.cart.cartItems);
+  
+  //Redirect to home page if no items in cart
+  if (Object.keys(cartItems).length === 0) {
+    history.push("/");
+  }
+
   const [formState,setFormState] = useState({
         values:shippingAddress       
     });
@@ -37,9 +44,9 @@ const ShippingPage = ({history}) => {
   const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true); 
-        const { street1,street2, city, state, zip, country } = formState.values;
+        const { customer_name, street1,street2, city, state, zip, country } = formState.values;
         
-        if (street1 && city && state && zip && country) {
+        if (customer_name && street1 && city && state && zip && country) {
             dispatch(saveShippingAddress(formState.values));
             history.push("/payment");
         }
@@ -60,7 +67,18 @@ const ShippingPage = ({history}) => {
                   <h4 className="content-heading">Delivery Address</h4>       
 			            <div className="d-flex justify-content-center form_container auth-page-container shipping-page-container">
 			              <form onSubmit={handleSubmit} autoComplete="off">
-			                <div className="input-group">
+                      <div className="input-group">
+                        <input type="text" className={'form-control form-control-lg' + (submitted && !formState.values.customer_name ? ' is-invalid' : '')} 
+                                    name="customer_name" 
+                                    placeholder="Customer Name"
+                                    onChange={handleChange}
+                                    value={formState.values.customer_name || ''}
+                                    />                        
+                      </div>
+                      {submitted && !formState.values.customer_name &&
+                          <div className="inline-errormsg">Name is required</div>
+                      }
+			                <div className="input-group mt-3">
 			                  <input type="text" className={'form-control form-control-lg' + (submitted && !formState.values.street1 ? ' is-invalid' : '')} 
                                     name="street1" 
                                     placeholder="Street 1"
@@ -130,7 +148,14 @@ const ShippingPage = ({history}) => {
                           <div className="inline-errormsg">Country is required</div>
                       }
 			                <div className="d-flex justify-content-center mt-3 login_container">
-			                  <button className="btn login_btn">Continue</button>
+			                  <button className="btn login_btn">
+                        {submitted ? (
+                            <i className="fas fa-spinner fa-spin"></i>
+                          ): (
+                            "Continue"
+                          )
+                        }
+                        </button>
 			                </div>
 			              </form>
 			            </div>			            

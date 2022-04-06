@@ -26,9 +26,9 @@ export const addToCart = (product,qty) => (dispatch,getState) => {
 		dispatch({
 		    type: ActionTypes.ADD_ITEM_TO_CART,
 		    payload: {
-		      id: product.id,
+		      id: product._id,
 		      name: product.title,
-		      image: product.thumbnail,
+		      image: product.image,
 		      price: product.price,
 		      countInStock: product.stock,
 		      qty,
@@ -57,6 +57,14 @@ export const removeFromCart = (id) => (dispatch, getState) => {
   });
 	toast.success("Item Removed From Cart", ToastObjects);
   localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+// Remove all item from cart
+export const clearCart = () => (dispatch, getState) => {
+  dispatch({
+    type: ActionTypes.CLEAR_CART_ITEM
+  });  
+  localStorage.setItem("cartItems", JSON.stringify([]));
 };
 
 // Remove item from cart

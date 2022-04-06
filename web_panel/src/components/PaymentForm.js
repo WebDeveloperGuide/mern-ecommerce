@@ -5,16 +5,25 @@ import PageHeading from '../components/PageHeading';
 import ProductDetail from '../components/ProductDetail';
 import Sidebar from '../components/Sidebar';
 import Cart from '../components/Cart';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {showCart} from '../redux/actions/cartActions';
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import { createOrder, processPayment } from '../redux/actions/orderActions';
 import axios from 'axios';
 
 
-const PaymentForm = ({history}) => {
+const PaymentForm = () => {
 
-  const [submitted, setSubmitted] = useState(false);  
+  const history = useHistory()
+
+
+  const [submitted, setSubmitted] = useState(false);
+  const [btnDisable, setBtnDisable] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery');  
   const [showCardPayment, setShowCardPayment] = useState(false); 
+  const userInfo = useSelector((state) => state.userPanelLogin.userInfo.data);  
+  const user = userInfo[0]._id;
+
   const stripe = useStripe();
   const elements = useElements();
   const dispatch = useDispatch();
@@ -37,7 +46,30 @@ const PaymentForm = ({history}) => {
 
   const shippingAddress = useSelector((state) => state.cart.shippingAddress);
   const { street1, street2, city, state, zip, country } = shippingAddress;
-  
+
+  const cartItems = useSelector((state)=> state.cart.cartItems);
+  const orderItems = [];
+  const cartItemsList = cartItems.map((product)=>{
+  const {name,qty,image,price, id} = product;
+    orderItems.push({
+        name,
+        qty,
+        image,
+        price,
+        product: id,
+      })
+  });
+
+  const itemsPrice = orderItems.reduce((a, i) => a + i.qty * i.price, 0).toFixed(2);
+  const shippingPrice = itemsPrice > 100 ? 0 : 10;
+  const taxPrice = (0.15 * itemsPrice).toFixed(2);
+  const totalPrice = ((parseFloat(itemsPrice) + parseFloat(shippingPrice) + parseFloat(taxPrice)) * 100).toFixed();
+
+  //Redirect to shipping page if address is not filled
+  if (cartItems.length === 0) {
+    history.push("/");
+  }
+
   //Redirect to shipping page if address is not filled
   if (Object.keys(shippingAddress).length === 0) {
     history.push("/shipping");
@@ -66,45 +98,45 @@ const PaymentForm = ({history}) => {
   const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitted(true); 
-       if (!stripe || !elements) {
-          // Stripe.js has not loaded yet. Make sure to disable
-          // form submission until Stripe.js has loaded.
-          return;
+        setBtnDisable(true);
+
+       if(showCardPayment){
+
+          if (!stripe || !elements) {
+            // Stripe.js has not loaded yet. Make sure to disable
+            // form submission until Stripe.js has loaded.
+            return;
+          }
+          // Get a reference to a mounted CardElement. Elements knows how
+          // to find your CardElement because there can only ever be one of
+          // each type of element.
+
+          // use stripe.createToken to get a unique token for the card
+          const { error, token } = await stripe.createToken(elements.getElement(CardElement));
+          
+          if (!error) {   
+            dispatch(processPayment({token: token.id, orderItems, shippingAddress, paymentMethod, user, itemsPrice, shippingPrice, taxPrice, totalPrice, price: totalPrice, isPaid:true}));                
+          } else {
+            setSubmitted(false);
+            setBtnDisable(false);               
+          }
+          
+
+        }else{
+          if(orderItems && shippingAddress && paymentMethod ){
+            dispatch(createOrder({orderItems, shippingAddress, paymentMethod, user, itemsPrice, shippingPrice, taxPrice, totalPrice}));
+              history.push('/');
+          }  
         }
-        // Get a reference to a mounted CardElement. Elements knows how
-        // to find your CardElement because there can only ever be one of
-        // each type of element.
-        
-
-        // use stripe.createToken to get a unique token for the card
-        const { error, token } = await stripe.createToken(cardElement);
-
-        if (!error) {
-        // Backend is not implemented yet, but once there isn’t any errors,
-        // you can pass the token and payment data to the backend to complete
-        // the charge
-        axios
-          .post("checkout/payment", {
-             token: token.id,
-            currency: "EGP",
-            price: 1000, // or 10 pounds (10*100). Stripe charges with the smallest price unit allowed
-          })
-          .then((resp) => {
-            alert("Your payment was successful");
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        console.log(error);
-      }
     }
 
     const changePaymentMethod = (e) =>{
       if(e.target.value === 'card'){
         setShowCardPayment(true);
+        setPaymentMethod('Card')
       }else{
         setShowCardPayment(false);
+        setPaymentMethod('Cash on Delivery')
       }
     }
 
@@ -115,6 +147,12 @@ const PaymentForm = ({history}) => {
             displayError.textContent = event.error.message;
         } else {
             displayError.textContent = '';
+        }
+
+        if(event.complete){
+          setBtnDisable(false);
+        }else{
+          setBtnDisable(true);
         }
     }
 
@@ -164,7 +202,15 @@ const PaymentForm = ({history}) => {
                       }
                       
                       <div className="d-flex justify-content-center mt-3 login_container">
-                        <button className="btn login_btn">Proceed</button>
+                        <button className="btn login_btn" disabled={btnDisable} >
+                         
+                        {submitted ? (
+                            <i className="fas fa-spinner fa-spin"></i>
+                          ): (
+                            "Place Order"
+                          )
+                        }
+                        </button>
                       </div>
                     </form>
                   </div>                  

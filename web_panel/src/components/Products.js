@@ -8,10 +8,9 @@ import Loading from '../components/Loading';
 const Products = () => {
 
 	const products = useSelector((state)=> state.allProducts.products);
-	
 	const renderList = products.map((product)=>{
 		return(
-			<Product detail={product} key={product.id}/>
+			<Product detail={product} key={product._id}/>
 			)
 	})
 

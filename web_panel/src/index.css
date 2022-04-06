@@ -519,6 +519,7 @@ Featured Products
   }
   .product .img {
     height: 13rem;
+    object-fit: contain;
   }
 }
 /*
@@ -668,6 +669,7 @@ Products Page
   }
   .products-container .product-img {
     height: 10rem;
+    object-fit:contain;
   }
   .products-container .product-name {
     font-size: 0.85rem;

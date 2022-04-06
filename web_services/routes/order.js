@@ -9,7 +9,7 @@ router.post("/",verifyTokenAndAuthorization, async (req,res)=>{
 
 	try{
 		const savedOrder = await newOrder.save();
-		res.status(200).json({status:1,message:"Order added successfully",data:[savedOrder]})
+		res.status(200).json({status:1,message:"Order submitted successfully",data:savedOrder})
 
 	}catch(err){
 		res.status(500).json({status:0,message:err.message})

@@ -7,7 +7,7 @@ const verifyToken = (req,res,next) =>{
 		const token = authHeader.split(" ")[1];
 		jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
 			if(err){
-				res.status(403).json("Invalid Token");
+				res.status(403).json({status:0,message:"Invalid Token"});				
 			}else{
 				req.user = user;
 				next();
@@ -15,7 +15,7 @@ const verifyToken = (req,res,next) =>{
 		})
 
 	}else{
-		return res.status(401).json("You are not authenticated!");
+		return res.status(401).json({status:0,message:"You are not authenticated!"});
 	}
 }
 
@@ -24,7 +24,7 @@ const verifyTokenAndAuthorization = (req,res,next) =>{
 		if(req.user_id === req.param.id || req.user.isAdmin){
 			next();
 		}else{
-			res.status(403).json("You have not access.")
+			res.status(403).json({status:0,message:"You have not access"})
 		}
 	})
 }
@@ -34,7 +34,7 @@ const verifyTokenAndAdmin = (req,res,next) =>{
 		if(req.user.isAdmin){
 			next();
 		}else{
-			res.status(403).json("You have not access.")
+			res.status(403).json({status:0,message:"You have not access"})
 		}
 	})
 }
