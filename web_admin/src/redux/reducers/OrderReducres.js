@@ -14,42 +14,42 @@ import {
 export const orderListReducer = (state = { orders: [] }, action) => {
   switch (action.type) {
     case ORDER_LIST_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ORDER_LIST_SUCCESS:
-      return { loading: false, orders: action.payload };
+      return { loading: false, orders: action.payload.data };
     case ORDER_LIST_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload.data };
     default:
       return state;
   }
 };
 
-// ORDER DETAILS
+// Order Details
 export const orderDetailsReducer = (
-  state = { loading: true, orderItems: [], shippingAddress: {} },
+  state = { loading: true, order: {} },
   action
 ) => {
   switch (action.type) {
     case ORDER_DETAILS_REQUEST:
       return { ...state, loading: true };
     case ORDER_DETAILS_SUCCESS:
-      return { loading: false, order: action.payload };
+      return { loading: false, order: action.payload.data };
     case ORDER_DETAILS_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false };
     default:
       return state;
   }
 };
 
 // ORDER DELIVERED
-export const orderDeliveredReducer = (state = {}, action) => {
+export const orderDeliveredReducer = (state = {loading: true}, action) => {
   switch (action.type) {
     case ORDER_DELIVERED_REQUEST:
-      return { loading: true };
+      return { ...state, loading: true };
     case ORDER_DELIVERED_SUCCESS:
-      return { loading: false, success: true };
+      return { ...state, loading: false };
     case ORDER_DELIVERED_FAIL:
-      return { loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload };
     case ORDER_DELIVERED_RESET:
       return {};
     default:

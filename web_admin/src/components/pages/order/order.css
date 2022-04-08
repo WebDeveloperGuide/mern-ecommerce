@@ -1,0 +1,103 @@
+.product-title{
+	width: 50%;
+}
+
+.product-image{
+	width: 10%;
+}
+
+.product-price{
+	width: 10%;
+}
+
+.product-stock{
+	width: 10%;
+}
+
+.products-table tbody td{
+	white-space:pre-wrap; 
+	word-wrap:break-word
+}
+
+form .card{
+	border-radius: 0; 
+}
+
+.icontext {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.icontext .icon {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 10px;
+}
+
+.icon-sm {
+    width: 40px;
+    height: 40px;
+    line-height: 40px !important;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+form .card .card-body {
+    padding: 1rem 1rem;
+}
+
+.card-body.main-lable{
+	min-height: 150px;
+}
+
+.dlist {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.dlist dt {
+    width: 150px;
+    font-weight: normal;
+}
+
+.itemside {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+a.itemside {
+    color: initial;
+    text-decoration: none;
+}
+
+.itemside .info {
+    padding-left: 15px;
+    padding-right: 7px;
+}
+
+.table td img {
+    width: 45px;
+    height: 40px;
+    border-radius: 100%;
+}
+
+.img-xs, .img-sm, .img-md, .img-lg {
+    object-fit: cover;
+    flex-shrink: 0;
+    flex-grow: 0;    
+}
+
+.dlist dd {
+    margin-left: 30px;
+    vertical-align: baseline;
+    flex-grow: 1; 
+    text-align: right;
+}

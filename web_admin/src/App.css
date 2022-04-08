@@ -71,3 +71,7 @@ textarea.form-control, select.form-control{
 	font-size: 24px;
 	margin-top: 5px;
 }
+
+.cursor-auto{
+	cursor: auto !important;
+}

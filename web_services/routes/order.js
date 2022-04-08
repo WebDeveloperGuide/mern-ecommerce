@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Order = require("../models/Order");
+const User = require("../models/User");
 const {verifyToken,verifyTokenAndAuthorization,verifyTokenAndAdmin} = require("./verifyToken");
 
 //Create Order
@@ -37,10 +38,34 @@ router.put("/:id",verifyTokenAndAdmin,async (req,res)=>{
 
 
 //Get All Orders
-router.get("/",verifyTokenAndAdmin, async (req,res)=>{
+router.get("/all",verifyTokenAndAdmin, async (req,res)=>{
 	
 	try{
-		const orderData = await Order.find();
+
+		let sortObject = {};
+		let sortByField = 'createdAt';
+
+		sortObject[sortByField] = -1; //Sort Order
+
+		const orderData = await Order.aggregate([
+				   { 
+				           $lookup: { 
+				               from: "users",
+				               localField: "user",
+				               foreignField: "_id",
+				               as: "user_info"
+				           } 
+				    },
+				    {
+				         $project:{
+				             "user_info._id":0,
+				             "user_info.password":0,
+				             "user_info.createdAt":0,
+				             "user_info.updatedAt":0,
+				             "user_info.isAdmin":0
+				         }
+				    }
+				]).sort(sortObject);
 		
 		if(orderData){
 			res.status(200).json({success:1,message:"",data:orderData});
@@ -53,14 +78,14 @@ router.get("/",verifyTokenAndAdmin, async (req,res)=>{
 	}
 })
 
-//Get User Orders
-router.get("/find/:userId", verifyTokenAndAuthorization, async (req,res)=>{
+//Get Single Order
+router.get("/find/:id", async (req,res)=>{
 	
 	try{
-		const orderData = await Order.find({ userId: req.params.userId });
+		const orderData = await Order.findById(req.params.id);
 		
 		if(orderData){
-			res.status(200).json({success:1,message:"",data:[orderData]});
+			res.status(200).json({success:1,message:"",data:orderData});
 		}else{
 			res.status(200).json({success:0,message:"No Data Found!"})
 		}
@@ -71,9 +96,27 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req,res)=>{
 })
 
 
-// Delete Product
-router.delete("/:id",verifyTokenAndAdmin,async (req,res)=>{
+// Update Order to Delivered
+router.put("/delivered/:id",verifyTokenAndAdmin,async (req,res)=>{
 	
+	try{
+		const updatedOrder = await Order.findByIdAndUpdate(req.params.id,{
+			$set:{isDelivered:true,deliveredAt:Date.now()}
+		},{new:true});
+		
+		if(updatedOrder == null){
+			res.status(200).json({success:0,message:"No Data Found!"});
+		}else{
+			res.status(200).json({success:1,message:"Order delivered successfully",data:[updatedOrder]})
+		}
+		
+	}catch(err){
+		res.status(500).json({status:0,message:err.message})
+	}
+});
+
+// Delete Order
+router.delete("/:id",verifyTokenAndAdmin,async (req,res)=>{
 	try{
 		const deletedOrder = await Order.findByIdAndDelete(req.params.id);
 		
@@ -86,45 +129,6 @@ router.delete("/:id",verifyTokenAndAdmin,async (req,res)=>{
 	}catch(err){
 		res.status(500).json({status:0,message:err.message})
 	}
-});
-
-// GET MONTHLY INCOME
-
-router.get("/income", verifyTokenAndAdmin, async (req, res) => {
-  const productId = req.query.pid;
-  const date = new Date();
-  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
-  const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
-
-  try {
-    const income = await Order.aggregate([
-      {
-        $match: {
-          createdAt: { $gte: previousMonth },
-          ...(productId && {
-            products: { $elemMatch: { productId } },
-          }),
-        },
-      },
-      {
-        $project: {
-          month: { $month: "$createdAt" },
-          sales: "$amount",
-        },
-      },
-      {
-        $group: {
-          _id: "$month",
-          total: { $sum: "$sales" },
-        },
-      },
-    ]);
-    
-    res.status(200).json({success:1,message:"",data:[income]});
-    
-  } catch (err) {
-    res.status(500).json({status:0,message:err.message})
-  }
 });
 
 module.exports = router;
