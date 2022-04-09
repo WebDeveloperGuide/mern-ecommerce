@@ -3,12 +3,16 @@ import axios from 'axios';
 import { toast } from "react-toastify";
 import {ToastObjects} from "../../util/toastObject";
 
-export const getProducts = () => async(dispatch) =>{
+export const getProducts = (pageNum,productsPerPage,sortBy,searchText,price) => async(dispatch) =>{
 	try{
-		const response = await axios.get("products");
+		const response = await axios.get(`products?page=${pageNum}&limit=${productsPerPage}&sortBy=${sortBy}&searchText=${searchText}&price=${price}`);
 		const responseData = response.data;
+
+		responseData['sortBy'] = sortBy;
+    	responseData['searchText'] = searchText;
+    	responseData['price'] = price;
 		
-		dispatch({ type: ActionTypes.FETCH_PRODUCTS, payload: responseData.data });
+		dispatch({ type: ActionTypes.FETCH_PRODUCTS, payload: responseData });
 
 	} catch (error){
 

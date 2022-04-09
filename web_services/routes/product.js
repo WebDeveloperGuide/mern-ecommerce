@@ -44,27 +44,46 @@ router.get("/", async (req,res)=>{
   		const pageNum = parseInt(req.query.page || "0"); //Products page number
   		const sortByVal = (req.query.sortBy || "_id"); //Products sort by
 		const searchText = (req.query.searchText || ""); //Products search text
+		const priceFilter = (req.query.price || ""); //Products search text
 
   		
   		let sortObject = {};
-  		let searchObject = {};
+  		let filterObj = {};
+  		let searchTextObj = {};
+  		let priceObject = {};
   		sortByField = sortByVal;
   		if(sortByVal == 'name'){
   			sortByField = 'title'; 
   		}
 
   		if(searchText !== ''){
-  			searchObject = {$or:[{ title: { $regex: searchText, $options:'i' }}
-  								,{ description: { $regex: searchText, $options:'i' } }
-  								]};
+  				searchTextObj = {
+							       $or : [
+							          { title: { $regex: searchText, $options:'i' } },
+	  								  { description: { $regex: searchText, $options:'i' } }
+							       ]
+							    };
+
   		}
 
-  		sortObject[sortByField] = 1;
-  		
-  		
-  		const totalProducts = await Product.countDocuments(searchObject);
-		const productData = await Product.find(searchObject).sort(sortObject).limit(itemPerPage).skip(itemPerPage * pageNum);
+  		if(priceFilter !== ''){
+  			priceObject = 	{price: {$lte: priceFilter}};
+  		}
 
+
+	    filterObj = {
+					 $and : [							    
+					    searchTextObj,
+					    priceObject
+					 ]
+				   };
+
+
+  		sortObject[sortByField] = 1;  		
+  		
+  		
+  		const totalProducts = await Product.countDocuments(filterObj);
+		const productData = await Product.find(filterObj).sort(sortObject).limit(itemPerPage).skip(itemPerPage * pageNum);
 		
 
 		let numOfPages = parseInt(totalProducts/itemPerPage);
