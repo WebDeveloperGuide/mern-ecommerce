@@ -2,6 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import {ToastObjects} from "../../util/toastObject";
 import {UserConstants} from "../constants";
+import {ActionTypes} from "../constants";
 
 const {
   USER_LIST_RESET,
@@ -14,6 +15,12 @@ const {
   USER_REGISTER_SUCCESS_RESET,
   USER_LOGOUT,
 } = UserConstants;
+
+const {
+  CLEAR_CART_ITEM,
+  CART_REMOVE_SHIPPING_ADDRESS
+} = ActionTypes;
+
 
 // Register
 export const Register = (name, email, password) => async (dispatch) => {
@@ -107,5 +114,9 @@ export const Login = (email, password) => async (dispatch) => {
 // Logout
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userPanelInfo");
+  localStorage.removeItem("shippingAddress");
+  localStorage.removeItem("cartItems");
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: CLEAR_CART_ITEM });
+  dispatch({ type: CART_REMOVE_SHIPPING_ADDRESS });
 };
