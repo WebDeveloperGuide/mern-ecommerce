@@ -79,6 +79,11 @@ export const cartReducer = (state = initialState,{type,payload}) => {
 	        ...state,
 	        shippingAddress: payload,
 	      };
+	    case ActionTypes.CART_REMOVE_SHIPPING_ADDRESS:
+	      return {
+	        ...state,
+	        shippingAddress: {},
+	      };
 	    case ActionTypes.CLEAR_CART_ITEM:
 			return {
 		        ...state,
