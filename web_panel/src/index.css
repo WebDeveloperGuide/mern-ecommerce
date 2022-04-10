@@ -560,6 +560,7 @@ Single Product Page
 .single-product-img {
   height: 25rem;
   border-radius: var(--borderRadius);
+  object-fit:contain;
 }
 .single-product-title {
   margin-bottom: 0;

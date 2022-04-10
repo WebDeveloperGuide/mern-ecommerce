@@ -1,4 +1,5 @@
 import { ActionTypes } from '../constants';
+const { FETCH_PRODUCTS, SET_PRODUCT_DETAIL, RESET_PRODUCT_DETAIL, RESET_PRODUCTS} = ActionTypes;
 
 const initialState = {
 	products:[],
@@ -10,13 +11,16 @@ const initialState = {
 }
 
 export const productReducer = (state = initialState,{type,payload}) => {
+
 	switch(type){
-		case ActionTypes.FETCH_PRODUCTS:
-			return {...state,products:payload.data, numOfPages:payload.numOfPages, sortBy:payload.sortBy, searchText:payload.searchText, price:payload.price};
-		case ActionTypes.SET_PRODUCT_DETAIL:
+		case FETCH_PRODUCTS:
+			return {...state,products:[...state.products,...payload.data], numOfPages:payload.numOfPages, sortBy:payload.sortBy, searchText:payload.searchText, price:payload.price};
+		case SET_PRODUCT_DETAIL:
 			return {...state,productDetail:payload};
-		case ActionTypes.RESET_PRODUCT_DETAIL:
+		case RESET_PRODUCT_DETAIL:
 			return {...state,productDetail:[]};
+		case RESET_PRODUCTS:
+			return {...state,products:[]};
 		default:
 			return state;
 	}

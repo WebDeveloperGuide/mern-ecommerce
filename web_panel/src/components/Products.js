@@ -2,15 +2,19 @@ import React,{useEffect,useState} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import Filters from './Filters';
 import Product from './Product';
-import {getProducts} from '../redux/actions/productActions';
+import {getProducts,resetProducts} from '../redux/actions/productActions';
 import Loading from '../components/Loading';
 
 const Products = () => {
 
+	const dispatch = useDispatch();
 	const [currentPage, setCurrentPage] = useState(0);	
 	const [priceFilter,setPriceFilter] = useState(10000);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortByFilter, setSortByFilter] = useState('');
+	const allProducts = useSelector((state)=> state.allProducts);
+	const { products, numOfPages, sortBy, searchText, price } = allProducts;
+	const productsPerPage = 9;
 
 	const changePrice = (e) => {
 		setPriceFilter(e.target.value)		
@@ -20,8 +24,11 @@ const Products = () => {
 		setSearchTerm(e.target.value)		
 	}
 
-	const allProducts = useSelector((state)=> state.allProducts);
-	const { products, numOfPages, sortBy, searchText, price } = allProducts;	
+	const loadMoreProduct = (e) => {
+		if (window.innerHeight + document.documentElement.scrollTop > (document.documentElement.offsetHeight - 200)) {
+  			setCurrentPage((page) => page + 1);
+      	}
+	};
 
 
 	const renderList = products.map((product)=>{
@@ -29,31 +36,35 @@ const Products = () => {
 			<Product detail={product} key={product._id}/>
 			)
 	})
-
-	const dispatch = useDispatch();
-	let pageNum = 0;
-  	let productsPerPage = 9;
   	
 
 	useEffect(()=>{
-		dispatch(getProducts(pageNum,productsPerPage, sortBy, searchText, price));
-	},[])
+		if(currentPage <= numOfPages){
+			dispatch(getProducts(currentPage,productsPerPage, sortBy, searchTerm, price));			
+		}		
+	},[currentPage])
 
-
+	
 	//Call Function after stop typing text
   	useEffect(() => {
-	    const delaySearchFunc = setTimeout(() => {
-	      setCurrentPage(0);
-		  dispatch(getProducts(pageNum,productsPerPage, sortByFilter, searchTerm, priceFilter));	      
+  		dispatch(resetProducts());
+  		const delaySearchFunc = setTimeout(() => {
+	      setCurrentPage(0);	      
 	    }, 1500)
 
-	    return () => clearTimeout(delaySearchFunc)
+	    window.addEventListener("scroll", loadMoreProduct);
+
+	    return () => {
+	    	clearTimeout(delaySearchFunc);
+	    	window.removeEventListener("scroll", loadMoreProduct);
+	    }
+
 	}, [searchTerm, priceFilter])
 
   	const handleSortBy = (e) => {
   		const sortByValue = e.target.value;
   		setCurrentPage(0);
-  		dispatch(getProducts(pageNum,productsPerPage, sortByValue, searchText, price));
+  		dispatch(getProducts(currentPage,productsPerPage, sortByValue, searchTerm, price));
   	}
 
 	return(
