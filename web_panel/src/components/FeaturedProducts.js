@@ -18,7 +18,7 @@ const FeaturedProducts = () => {
 	const dispatch = useDispatch();
 
 	useEffect(()=>{
-		dispatch(getProducts());
+		dispatch(getProducts(0,6,'','',''));
 	},[])
 
 	return(
