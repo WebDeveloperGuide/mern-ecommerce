@@ -12,6 +12,7 @@ const Products = () => {
 	const [priceFilter,setPriceFilter] = useState(10000);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [sortByFilter, setSortByFilter] = useState('');
+	const [filter, setFilter] = useState('');
 	const allProducts = useSelector((state)=> state.allProducts);
 	const { products, numOfPages, sortBy, searchText, price } = allProducts;
 	const productsPerPage = 9;
@@ -42,14 +43,15 @@ const Products = () => {
 		if(currentPage <= numOfPages){
 			dispatch(getProducts(currentPage,productsPerPage, sortBy, searchTerm, price));			
 		}		
-	},[currentPage])
+	},[currentPage,filter])
 
 	
 	//Call Function after stop typing text
   	useEffect(() => {
   		dispatch(resetProducts());
   		const delaySearchFunc = setTimeout(() => {
-	      setCurrentPage(0);	      
+	      setCurrentPage(0);
+	      setFilter(searchTerm+priceFilter)	      
 	    }, 1500)
 
 	    window.addEventListener("scroll", loadMoreProduct);
