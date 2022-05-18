@@ -41,24 +41,24 @@ There are 3 Folders
 - Shipping Address Page
 - Payment method with both for Cash on Delivery and Credit Card Payment  
 
-Note: Set port whatever you want in package.json file in scripts part
-URL for Frontend : http://localhost:5001/
+  Note: Set port whatever you want in package.json file in scripts part
+  URL for Frontend : http://localhost:5001/
 
 2. Admin Panel
 - Add/Update Product
 
-Note: Add 1 User with isAdmin=true in Users table manually for login in admin panel.
-URL for Admin Panel : http://localhost:5003/
+  Note: Add 1 User with isAdmin=true in Users table manually for login in admin panel.
+  URL for Admin Panel : http://localhost:5003/
 
 
 3. APIs
-Note: You can change port for API by set it in .env file. Default PORT is 5002
-URL for Admin Panel : http://localhost:5002/api/
+  Note: You can change port for API by set it in .env file. Default PORT is 5002
+  URL for Admin Panel : http://localhost:5002/api/
 
 
-Blog: https://www.webdeveloperguide.in/
-YouTube: https://www.youtube.com/WebDeveloperGuide
-GitHub: https://github.com/WebDeveloperGuide/
-FaceBook: https://www.facebook.com/webdeveloperguides/
-Twitter: https://twitter.com/WebDeveloperGd 
+Blog: https://www.webdeveloperguide.in/  
+YouTube: https://www.youtube.com/WebDeveloperGuide  
+GitHub: https://github.com/WebDeveloperGuide/  
+FaceBook: https://www.facebook.com/webdeveloperguides/  
+Twitter: https://twitter.com/WebDeveloperGd  
 
