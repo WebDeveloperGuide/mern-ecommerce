@@ -46,6 +46,8 @@ There are 3 Folders
 
 **Admin Panel**
 - Add/Update Product
+- Search Product
+- Download Product in CSV
 
   Note: Add 1 User with isAdmin=true in Users table manually for login in admin panel.  
   URL for Admin Panel : http://localhost:5003/
