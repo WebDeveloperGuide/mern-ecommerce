@@ -15,6 +15,8 @@ import PrivateRouter from "./PrivateRouter";
 import Toast from "./components/LoadingError/Toast";
 import './App.css';
 import "react-toastify/dist/ReactToastify.css";
+import AddUser from "./components/pages/user/AddUser";
+import EditUser from "./components/pages/user/EditUser";
 
 function App() {
   return (
@@ -22,16 +24,18 @@ function App() {
       <Toast/>
       <Router>
         <Switch>
-          <PrivateRouter path="/" component={Dashboard} exact />
+          {/* <PrivateRouter path="/" component={Dashboard} exact /> */}
           <AuthRoute path="/login" component={Login} />
           <AuthRoute path="/register" component={Register} />
-          <PrivateRouter path="/dashboard" component={Dashboard} />
+          {/* <PrivateRouter path="/dashboard" component={Dashboard} /> */}
           <PrivateRouter path="/products" component={Products} />
           <PrivateRouter path="/product/add" component={AddProduct} />
           <PrivateRouter path="/product/edit/:id" component={EditProduct} />
           <PrivateRouter path="/categories" component={Categories} />
           <PrivateRouter path="/orders" component={Orders} />
           <PrivateRouter path="/order/edit/:id" component={EditOrder} />
+          <PrivateRouter path="/users/add" component={AddUser} />
+          <PrivateRouter path="/users/edit/:id" component={EditUser} />
           <PrivateRouter path="/users" component={Users} />
           <PrivateRouter path="*" component={NotFound} />
         </Switch>

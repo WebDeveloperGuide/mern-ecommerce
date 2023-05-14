@@ -24,7 +24,8 @@ const Products = () => {
 	const myRefBtn= useRef(null);
 	
 	const orderList = useSelector((state) => state.orderList);
-	const { loading, error, orders, numOfPages, sortBy, searchText } = orderList;  	
+	const { loading, error, orders, numOfPages, sortBy, searchText } = orderList; 
+	console.log(orderList); 	
 
   	let pageNum = 0;
   	let ordersPerPage = 10;
