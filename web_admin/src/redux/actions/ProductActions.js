@@ -57,8 +57,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     const response = await axios.delete(`/products/${id}`);
 
     const responseData = response.data;
-
-    if (!responseData.success) {
+    if (responseData.status !== 200) {
         toast.error(responseData.message, ToastObjects);  
       }else{
         toast.success(responseData.message, ToastObjects);  
@@ -88,10 +87,14 @@ export const createProduct = (reqData) => async (dispatch, getState) => {
     try {
       dispatch({ type: PRODUCT_CREATE_REQUEST });
 
+<<<<<<< Updated upstream
       const response = await axios.post(
         `products/`,
         reqData
       );
+=======
+      const response = await axiosJWT.post(`/products`);
+>>>>>>> Stashed changes
 
       const responseData = response.data;
 
@@ -147,7 +150,6 @@ export const updateProduct = (reqData) => async (dispatch, getState) => {
 
   try {
     dispatch({ type: PRODUCT_UPDATE_REQUEST });
-    let _id = 0;
     const { data } = await axios.put(
       `/products/${reqData._id}`,
       reqData      

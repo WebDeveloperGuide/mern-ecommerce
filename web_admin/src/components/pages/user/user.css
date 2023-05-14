@@ -1,0 +1,20 @@
+.product-title{
+	width: 50%;
+}
+
+.product-image{
+	width: 10%;
+}
+
+.product-price{
+	width: 10%;
+}
+
+.product-stock{
+	width: 10%;
+}
+
+.products-table tbody td{
+	white-space:pre-wrap; 
+	word-wrap:break-word
+}

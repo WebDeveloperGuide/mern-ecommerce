@@ -5,6 +5,14 @@ import Header from '../../Header';
 import Sidebar from '../../Sidebar';
 import Footer from '../../Footer';
 import {createProduct} from '../../../redux/actions/ProductActions'; 
+<<<<<<< Updated upstream
+=======
+import { useEffect } from 'react';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode'
+import FileBase64 from 'react-file-base64';
+
+>>>>>>> Stashed changes
 
 const AddProduct = () => {
 
@@ -99,12 +107,29 @@ const AddProduct = () => {
 				                                 <div className="form-group row">
 				                                    <label className="col-sm-3 col-form-label">Image URL</label>
 				                                    <div className="col-sm-9">
+<<<<<<< Updated upstream
 				                                       <input type="text" className={'form-control form-control-lg' + (submitted && !formState.values.image ? ' is-invalid' : '')} 
 					                                        name="image" 
 					                                        onChange={handleChange}
 					                                        value={formState.values.image || ''}
 					                                        />
 					                                        {submitted && !formState.values.image &&
+=======
+				                                       {/* <input type="text" className={'form-control form-control-lg' + (submitted && !formState.values.img ? ' is-invalid' : '')} 
+					                                        name="img" 
+					                                        onChange={handleChange}
+					                                        value={formState.values.img || ''}
+					                                        /> */}
+															<FileBase64
+																type="file"
+																multiple={false}
+																onDone={({ base64 }) => formState.values.img = base64}
+															/>
+																{/* <input type="text" className="form-control" placeholder="Image" value={img} onChange={(e) => setImg(e.target.value)} /> */}
+																<img className="activator" style={{ width: '100%', height: 100, width: 100 }} src={formState.values.img} />
+													
+					                                        {submitted && !formState.values.img &&
+>>>>>>> Stashed changes
 					                                            <div className="inline-errormsg">Image is required</div>
 					                                        }
 				                                    </div>
